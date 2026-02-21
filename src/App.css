@@ -1,0 +1,380 @@
+/* ========================================
+   DESIGN SYSTEM & GLOBAL STYLES
+   Modern SaaS / Clean Minimal
+   ======================================== */
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=cal-sans:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ======================================== 
+   CSS Custom Properties (Design Tokens)
+   ======================================== */
+:root {
+  /* Colors - Modern Clean Dark Theme (Slate/Blue) */
+  --color-bg-primary: #020817;
+  /* Deep Slate/Navy */
+  --color-bg-secondary: #0f172a;
+  /* Slate 900 */
+  --color-bg-tertiary: #1e293b;
+  /* Slate 800 */
+
+  --color-text-primary: #f8fafc;
+  /* Slate 50 */
+  --color-text-secondary: #94a3b8;
+  /* Slate 400 */
+  --color-text-tertiary: #64748b;
+  /* Slate 500 */
+
+  --color-accent-primary: #3b82f6;
+  /* Blue 500 */
+  --color-accent-secondary: #6366f1;
+  /* Indigo 500 */
+  --color-accent-glow: rgba(59, 130, 246, 0.5);
+
+  --color-border: #1e293b;
+  /* Slate 800 */
+
+  /* Typography */
+  /* Using Inter for a clean, modern SaaS look */
+  --font-display: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Fluid Typography Scale */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.75rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+  --text-3xl: clamp(2rem, 1.7rem + 1.5vw, 3rem);
+  --text-4xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+  --text-5xl: clamp(3rem, 2.5rem + 3vw, 5rem);
+  --text-6xl: clamp(4rem, 3rem + 5vw, 7rem);
+
+  /* Spacing Scale (4px/8px base) */
+  --space-1: 0.25rem;
+  /* 4px */
+  --space-2: 0.5rem;
+  /* 8px */
+  --space-3: 1rem;
+  /* 16px */
+  --space-4: 1.5rem;
+  /* 24px */
+  --space-5: 2rem;
+  /* 32px */
+  --space-6: 3rem;
+  /* 48px */
+  --space-7: 4rem;
+  /* 64px */
+  --space-8: 6rem;
+  /* 96px */
+  --space-9: 8rem;
+  /* 128px */
+
+  /* Transitions & Easing */
+  /* Remove delay, quicker snap */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --max-width: 1280px;
+  /* Slightly tighter container */
+  --section-padding: var(--space-8);
+  --border-radius: 8px;
+  /* Sharper corners */
+  --border-radius-lg: 16px;
+}
+
+/* ======================================== 
+   Reset & Base Styles
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  overflow-x: hidden;
+}
+
+/* ======================================== 
+   Typography Utilities
+   ======================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--text-6xl);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: var(--text-3xl);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+}
+
+p {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  max-width: 65ch;
+}
+
+/* ======================================== 
+   Layout Utilities
+   ======================================== */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.section {
+  padding: var(--section-padding) 0;
+  position: relative;
+}
+
+/* ======================================== 
+   Animation Keyframes
+   ======================================== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle pulse instead of glitch */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+  }
+}
+
+/* ======================================== 
+   Gradient Text Utility
+   ======================================== */
+.gradient-text {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  /* Sky blue to Purple */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ======================================== 
+   Card Component Base
+   ======================================== */
+.card {
+  background: rgba(30, 41, 59, 0.5);
+  /* Semi-transparent slate */
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--space-5);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ======================================== 
+   Button Component
+   ======================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--color-text-primary);
+  color: var(--color-bg-primary);
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ======================================== 
+   Tag/Pill Component
+   ======================================== */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.tag:hover {
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* ======================================== 
+   Geometric Shapes (Background Elements)
+   ======================================== */
+.geometric-shape {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.3;
+  /* Increased opacity for modern feel */
+  z-index: 0;
+  filter: blur(80px);
+  /* Heavy blur for "glow" effect */
+}
+
+.shape-circle {
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  border: none;
+}
+
+.shape-square {
+  border-radius: 50%;
+  /* Make everything soft blobs */
+  background: var(--color-accent-secondary);
+  border: none;
+}
+
+/* ======================================== 
+   Responsive Breakpoints
+   ======================================== */
+@media (max-width: 768px) {
+  :root {
+    --section-padding: var(--space-6);
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-padding: var(--space-5);
+  }
+
+  .container {
+    padding: 0 var(--space-3);
+  }
+}
+
+/* ======================================== 
+   Accessibility
+   ======================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid var(--color-accent-cyan);
+  outline-offset: 4px;
+}
+
+/* ======================================== 
+   Smooth Scrollbar (Optional)
+   ======================================== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-cyan);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-lime);
+}
