@@ -14,6 +14,8 @@ import {
     SiVite,
     SiRadixui,
     SiZod,
+    SiAstro,
+    SiAdonisjs,
 } from 'react-icons/si';
 
 const Projects = () => {
@@ -21,6 +23,7 @@ const Projects = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [galleryTheme, setGalleryTheme] = useState('dark'); // 'dark' | 'light'
 
     const projects = [
         {
@@ -103,37 +106,112 @@ const Projects = () => {
         },
         {
             id: 3,
-            title: 'Task Management App',
-            description: 'Collaborative project management tool with real-time updates and team features.',
+            title: 'Club el Meta',
+            description: 'Sistema de gestión de eventos, reservas y socios para la Corporación Club el Meta.',
+            fullDescription: 'Plataforma web full-stack para la Corporación Club el Meta de Villavicencio. Permite a clientes solicitar cotizaciones para reservar espacios, mientras el personal administrativo gestiona reservas, controla pagos, administra socios y consulta reportes analíticos en tiempo real.',
+            status: 'ESTADO DEL PROYECTO: TERMINADO',
+            award: {
+                text: '🏆 2° Lugar — Retos de Innovación',
+                subtitle: 'Gobernación del Meta'
+            },
             tags: [
-                { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
+                { name: 'Astro', icon: SiAstro, color: '#FF5D01' },
+                { name: 'AdonisJS', icon: SiAdonisjs, color: '#5A45FF' },
+                { name: 'Supabase', icon: SiSupabase, color: '#3ECF8E' },
                 { name: 'PostgreSQL', icon: SiPostgresql, color: '#336791' },
                 { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' }
             ],
-            color: '#8b5cf6', // Violet
-            coverImage: ''
+            color: '#c9a84c', // Warm gold
+            coverImage: '/club-el-meta/inicio.png',
+            darkImages: [
+                '/club-el-meta/inicio.png',
+                '/club-el-meta/inicio1.png',
+                '/club-el-meta/login.png',
+                '/club-el-meta/salones.png',
+                '/club-el-meta/salones1.png',
+                '/club-el-meta/salones2.png',
+                '/club-el-meta/versalon.png',
+                '/club-el-meta/versalon1.png',
+                '/club-el-meta/versalon2.png',
+                '/club-el-meta/eventosDark.png',
+                '/club-el-meta/eventos.png',
+                '/club-el-meta/eventos1.png',
+                '/club-el-meta/eventos2.png',
+                '/club-el-meta/contacto.png',
+                '/club-el-meta/contacto1.png',
+                '/club-el-meta/contacto2.png',
+                '/club-el-meta/cotizacion.png',
+                '/club-el-meta/cotizacion1.png',
+                '/club-el-meta/cotizacion2.png',
+                '/club-el-meta/cotzacion3.png',
+                '/club-el-meta/cotizacion4.png',
+                '/club-el-meta/espaciosDark.png',
+                '/club-el-meta/reservasDark.png',
+                '/club-el-meta/reservas1Dark.png',
+                '/club-el-meta/sociosDark.png',
+                '/club-el-meta/empresaDark.png',
+                '/club-el-meta/serviceDark.png',
+                '/club-el-meta/editespacioDark.png',
+                '/club-el-meta/reportesDark.png'
+            ],
+            lightImages: [
+                '/club-el-meta/inicio.png',
+                '/club-el-meta/inicio1.png',
+                '/club-el-meta/login.png',
+                '/club-el-meta/salones.png',
+                '/club-el-meta/salones1.png',
+                '/club-el-meta/salones2.png',
+                '/club-el-meta/versalon.png',
+                '/club-el-meta/versalon1.png',
+                '/club-el-meta/versalon2.png',
+                '/club-el-meta/eventosLight.png',
+                '/club-el-meta/eventos.png',
+                '/club-el-meta/eventos1.png',
+                '/club-el-meta/eventos2.png',
+                '/club-el-meta/contacto.png',
+                '/club-el-meta/contacto1.png',
+                '/club-el-meta/contacto2.png',
+                '/club-el-meta/cotizacion.png',
+                '/club-el-meta/cotizacion1.png',
+                '/club-el-meta/cotizacion2.png',
+                '/club-el-meta/cotzacion3.png',
+                '/club-el-meta/cotizacion4.png',
+                '/club-el-meta/espaciosLight.png',
+                '/club-el-meta/reservasLight.png',
+                '/club-el-meta/reservas1Light.png',
+                '/club-el-meta/sociosLight.png',
+                '/club-el-meta/empresaLight.png',
+                '/club-el-meta/serviceLight.png',
+                '/club-el-meta/editespacioLight.png',
+                '/club-el-meta/reportesLight.png'
+            ],
+            githubLink: 'https://github.com/Santiagodutr/Club-Management-System'
         }
     ];
 
-    const nextProject = () => {
-        setActiveIndex((prev) => (prev + 1) % projects.length);
-    };
-
-    const prevProject = () => {
-        setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
-    };
-
-    const openModal = () => {
+    const openModal = (index) => {
+        setActiveIndex(index);
         setIsModalOpen(true);
         setActiveImageIndex(0);
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        setGalleryTheme('dark'); // reset theme on modal open
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
         setIsFullscreen(false);
-        document.body.style.overflow = 'auto';
     };
+
+    // Handle body scroll lock
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isModalOpen]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -146,22 +224,25 @@ const Projects = () => {
                     closeModal();
                 }
             } else if (e.key === 'ArrowRight') {
-                setActiveImageIndex((prev) =>
-                    projects[activeIndex].images ? (prev + 1) % projects[activeIndex].images.length : prev
-                );
+                setActiveImageIndex((prev) => {
+                    const proj = projects[activeIndex];
+                    const imgs = proj.darkImages ? (galleryTheme === 'dark' ? proj.darkImages : proj.lightImages) : proj.images;
+                    return imgs ? (prev + 1) % imgs.length : prev;
+                });
             } else if (e.key === 'ArrowLeft') {
-                setActiveImageIndex((prev) =>
-                    projects[activeIndex].images ? (prev - 1 + projects[activeIndex].images.length) % projects[activeIndex].images.length : prev
-                );
+                setActiveImageIndex((prev) => {
+                    const proj = projects[activeIndex];
+                    const imgs = proj.darkImages ? (galleryTheme === 'dark' ? proj.darkImages : proj.lightImages) : proj.images;
+                    return imgs ? (prev - 1 + imgs.length) % imgs.length : prev;
+                });
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-            if (!isModalOpen) document.body.style.overflow = 'auto';
         };
-    }, [isModalOpen, isFullscreen, activeIndex, projects]);
+    }, [isModalOpen, isFullscreen, activeIndex, projects, galleryTheme]);
 
     const activeProject = projects[activeIndex];
 
@@ -193,231 +274,173 @@ const Projects = () => {
                         </p>
                     </div>
 
-                    {/* Carousel Container */}
+                    {/* Grid Container */}
                     <div style={{
-                        position: 'relative',
-                        maxWidth: '1000px',
-                        margin: '0 auto',
-                        minHeight: '400px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+                        gap: 'var(--space-6)',
+                        width: '100%',
+                        maxWidth: '1200px',
+                        margin: '0 auto'
                     }}>
-                        {/* Navigation Buttons */}
-                        <button
-                            onClick={prevProject}
-                            className="btn btn-outline"
-                            style={{
-                                position: 'absolute',
-                                left: '-20px',
-                                zIndex: 10,
-                                borderRadius: '50%',
-                                width: '48px',
-                                height: '48px',
-                                padding: 0,
-                                background: 'var(--color-bg-primary)',
-                                border: '1px solid var(--color-border)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                            aria-label="Previous project"
-                        >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M15 19l-7-7 7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>
+                        {projects.map((project, index) => (
+                            <motion.div
+                                key={project.title}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: index * 0.1 }}
+                                className="card"
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 'var(--space-4)',
+                                    background: 'rgba(30, 41, 59, 0.3)',
+                                    backdropFilter: 'blur(12px)',
+                                    border: '1px solid rgba(255,255,255,0.06)',
+                                    padding: 'var(--space-5)',
+                                    borderRadius: 'var(--border-radius-lg)',
+                                    overflow: 'hidden',
+                                    boxShadow: 'none' // Remove default glow, keep clean
+                                }}
+                            >
+                                {/* Image Placeholder or Cover Image */}
+                                <div style={{
+                                    aspectRatio: '16/9',
+                                    background: `linear-gradient(135deg, ${project.color}20, ${project.color}05)`,
+                                    borderRadius: 'var(--border-radius)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    border: `1px solid ${project.color}30`,
+                                    overflow: 'hidden',
+                                    position: 'relative'
+                                }}>
+                                    {project.coverImage ? (
+                                        <img
+                                            src={project.coverImage}
+                                            alt={project.title}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                        />
+                                    ) : (
+                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={project.color}>
+                                            <rect x="2" y="3" width="20" height="14" rx="2" strokeWidth="1.5" />
+                                            <path d="M8 21h8M12 17v4" strokeWidth="1.5" strokeLinecap="round" />
+                                        </svg>
+                                    )}
+                                </div>
 
-                        <button
-                            onClick={nextProject}
-                            className="btn btn-outline"
-                            style={{
-                                position: 'absolute',
-                                right: '-20px',
-                                zIndex: 10,
-                                borderRadius: '50%',
-                                width: '48px',
-                                height: '48px',
-                                padding: 0,
-                                background: 'var(--color-bg-primary)',
-                                border: '1px solid var(--color-border)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                            aria-label="Next project"
-                        >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M9 5l7 7-7 7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </button>
-
-                        {/* Project Card */}
-                        <div style={{ width: '100%', padding: '0 40px' }}>
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={activeIndex}
-                                    initial={{ opacity: 0, x: 50 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -50 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="card"
-                                    style={{
-                                        display: 'grid',
-                                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))',
-                                        gap: 'var(--space-8)',
-                                        background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%)',
-                                        backdropFilter: 'blur(20px)',
-                                        border: `1px solid ${activeProject.color}40`,
-                                        boxShadow: `0 10px 40px -10px ${activeProject.color}30`,
-                                        overflow: 'hidden',
-                                        padding: 'var(--space-6)',
-                                        alignItems: 'center'
-                                    }}
-                                >
-                                    {/* Image Placeholder or Cover Image */}
-                                    <div style={{
-                                        aspectRatio: '16/9',
-                                        background: `linear-gradient(135deg, ${activeProject.color}20, ${activeProject.color}05)`,
-                                        borderRadius: 'var(--border-radius)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        border: `1px solid ${activeProject.color}30`,
-                                        overflow: 'hidden',
-                                        position: 'relative'
+                                {/* Content */}
+                                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                    <h3 style={{
+                                        fontSize: 'var(--text-2xl)',
+                                        marginBottom: 'var(--space-1)',
+                                        color: 'var(--color-text-primary)'
                                     }}>
-                                        {activeProject.coverImage ? (
-                                            <img
-                                                src={activeProject.coverImage}
-                                                alt={activeProject.title}
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                            />
-                                        ) : (
-                                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={activeProject.color}>
-                                                <rect x="2" y="3" width="20" height="14" rx="2" strokeWidth="1.5" />
-                                                <path d="M8 21h8M12 17v4" strokeWidth="1.5" strokeLinecap="round" />
-                                            </svg>
-                                        )}
-                                    </div>
+                                        {project.title}
+                                    </h3>
 
-                                    {/* Content */}
-                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                        <h3 style={{
-                                            fontSize: 'var(--text-3xl)',
-                                            marginBottom: 'var(--space-2)',
-                                            color: 'var(--color-text-primary)'
-                                        }}>
-                                            {activeProject.title}
-                                        </h3>
-                                        <p style={{
-                                            marginBottom: 'var(--space-4)',
-                                            color: 'var(--color-text-secondary)',
-                                            fontSize: 'var(--text-lg)'
-                                        }}>
-                                            {activeProject.description}
-                                        </p>
-
-                                        {/* Animated Tech Preview Carousel */}
+                                    {/* Award Badge on Card */}
+                                    {project.award && (
                                         <div style={{
-                                            overflow: 'hidden',
-                                            marginBottom: 'var(--space-5)',
-                                            position: 'relative',
-                                            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-                                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            gap: '6px',
+                                            marginBottom: 'var(--space-3)',
+                                            padding: '4px 10px',
+                                            borderRadius: '20px',
+                                            background: `linear-gradient(135deg, ${project.color}15, ${project.color}05)`,
+                                            border: `1px solid ${project.color}30`,
+                                            width: 'fit-content'
                                         }}>
-                                            <div style={{ display: 'flex', width: '100%' }}>
-                                                <motion.div
-                                                    style={{
-                                                        display: 'flex',
-                                                        gap: 'var(--space-3)',
-                                                        whiteSpace: 'nowrap',
-                                                        padding: '4px 0'
-                                                    }}
-                                                    animate={{ x: ["0%", "-50%"] }}
-                                                    transition={{
-                                                        x: {
-                                                            repeat: Infinity,
-                                                            repeatType: "loop",
-                                                            duration: 12,
-                                                            ease: "linear",
-                                                        },
-                                                    }}
-                                                >
-                                                    {[...activeProject.tags, ...activeProject.tags].map((tech, index) => (
-                                                        <div
-                                                            key={`${tech.name}-${index}`}
-                                                            style={{
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                gap: '6px',
-                                                                padding: '6px 14px',
-                                                                borderRadius: '20px',
-                                                                border: `1px solid ${activeProject.color}40`,
-                                                                background: 'rgba(255,255,255,0.03)'
-                                                            }}
-                                                        >
-                                                            <div style={{ color: tech.color, display: 'flex', fontSize: '1.1rem' }}>
-                                                                <tech.icon />
-                                                            </div>
-                                                            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)' }}>
-                                                                {tech.name}
-                                                            </span>
-                                                        </div>
-                                                    ))}
-                                                </motion.div>
-                                            </div>
+                                            <span style={{ fontSize: 'var(--text-xs)', color: project.color, fontWeight: 600 }}>
+                                                {project.award.text}
+                                            </span>
                                         </div>
+                                    )}
 
-                                        {activeProject.fullDescription ? (
-                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'auto' }}>
-                                                <button onClick={openModal} className="btn btn-primary" style={{ background: activeProject.color, borderColor: activeProject.color, color: '#000' }}>
-                                                    Ver más información
-                                                </button>
-                                                {activeProject.liveLink && (
-                                                    <a href={activeProject.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                                        Live App
-                                                    </a>
-                                                )}
+                                    <p style={{
+                                        marginBottom: 'var(--space-4)',
+                                        color: 'var(--color-text-secondary)',
+                                        fontSize: 'var(--text-base)',
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 3,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden'
+                                    }}>
+                                        {project.description}
+                                    </p>
+
+                                    {/* Tech Tags */}
+                                    <div style={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        gap: '8px',
+                                        marginBottom: 'var(--space-5)'
+                                    }}>
+                                        {project.tags.slice(0, 4).map((tech, i) => (
+                                            <div key={i} style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '4px',
+                                                padding: '4px 10px',
+                                                borderRadius: '20px',
+                                                background: 'rgba(255,255,255,0.03)',
+                                                border: '1px solid rgba(255,255,255,0.06)'
+                                            }}>
+                                                <div style={{ color: tech.color, display: 'flex', fontSize: '1rem' }}>
+                                                    <tech.icon />
+                                                </div>
+                                                <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                                                    {tech.name}
+                                                </span>
                                             </div>
-                                        ) : (
-                                            <button className="btn btn-outline" style={{ alignSelf: 'start', marginTop: 'auto' }}>
-                                                Coming Soon
-                                            </button>
+                                        ))}
+                                        {project.tags.length > 4 && (
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                padding: '4px 10px',
+                                                borderRadius: '20px',
+                                                background: 'rgba(255,255,255,0.03)',
+                                                border: '1px solid rgba(255,255,255,0.06)'
+                                            }}>
+                                                <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                                                    +{project.tags.length - 4}
+                                                </span>
+                                            </div>
                                         )}
                                     </div>
-                                </motion.div>
-                            </AnimatePresence>
 
-                            {/* Dots Indicator */}
-                            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: 'var(--space-4)' }}>
-                                {projects.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setActiveIndex(index)}
-                                        style={{
-                                            width: '8px',
-                                            height: '8px',
-                                            borderRadius: '50%',
-                                            background: index === activeIndex ? activeProject.color : 'var(--color-border)',
-                                            border: 'none',
-                                            padding: 0,
-                                            cursor: 'pointer',
-                                            transition: 'background 0.3s ease'
-                                        }}
-                                        aria-label={`Go to project ${index + 1}`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                                    {project.fullDescription ? (
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'auto' }}>
+                                            <button onClick={() => openModal(index)} className="btn btn-primary" style={{ background: project.color, borderColor: project.color, color: '#000', flex: 1, padding: '0.5rem 1rem' }}>
+                                                Ver más
+                                            </button>
+                                            {project.liveLink && (
+                                                <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flex: 1, padding: '0.5rem 1rem' }}>
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                                    App
+                                                </a>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <button className="btn btn-outline" style={{ marginTop: 'auto', width: '100%', padding: '0.5rem 1rem' }}>
+                                            Coming Soon
+                                        </button>
+                                    )}
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </motion.div>
             </div>
 
             {/* Gallery Modal Overlay */}
             <AnimatePresence>
-                {isModalOpen && activeProject.images && (
+                {isModalOpen && (activeProject.images || activeProject.darkImages) && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -506,91 +529,139 @@ const Projects = () => {
                                     background: 'rgba(0,0,0,0.2)',
                                     overflow: 'hidden'
                                 }}>
-                                    {/* Main Image Viewer */}
-                                    <div
-                                        onClick={() => setIsFullscreen(true)}
-                                        style={{
-                                            flex: 1,
-                                            borderRadius: '16px',
-                                            overflow: 'hidden',
-                                            marginBottom: 'var(--space-4)',
-                                            background: '#000',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            position: 'relative',
-                                            boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1)',
-                                            cursor: 'zoom-in'
-                                        }}
-                                        title="Click to view fullscreen"
-                                    >
-                                        <AnimatePresence mode="wait">
-                                            <motion.img
-                                                key={activeImageIndex}
-                                                src={activeProject.images[activeImageIndex]}
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                                transition={{ duration: 0.2 }}
-                                                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                                alt={`Screenshot ${activeImageIndex + 1}`}
-                                            />
-                                        </AnimatePresence>
+                                    {/* Dual-Theme Gallery Toggle */}
+                                    {activeProject.darkImages && (
                                         <div style={{
-                                            position: 'absolute',
-                                            bottom: '16px',
-                                            right: '16px',
-                                            background: 'rgba(0,0,0,0.6)',
-                                            padding: '4px 12px',
-                                            borderRadius: '20px',
-                                            fontSize: 'var(--text-sm)',
                                             display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '8px'
+                                            gap: '8px',
+                                            marginBottom: 'var(--space-4)',
+                                            padding: '4px',
+                                            background: 'rgba(255,255,255,0.04)',
+                                            borderRadius: '12px',
+                                            border: '1px solid rgba(255,255,255,0.08)',
+                                            width: 'fit-content'
                                         }}>
-                                            <span>{activeImageIndex + 1} / {activeProject.images.length}</span>
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <polyline points="15 3 21 3 21 9"></polyline>
-                                                <polyline points="9 21 3 21 3 15"></polyline>
-                                                <line x1="21" y1="3" x2="14" y2="10"></line>
-                                                <line x1="3" y1="21" x2="10" y2="14"></line>
-                                            </svg>
+                                            {['dark', 'light'].map((theme) => (
+                                                <button
+                                                    key={theme}
+                                                    onClick={() => { setGalleryTheme(theme); setActiveImageIndex(0); }}
+                                                    style={{
+                                                        padding: '6px 18px',
+                                                        borderRadius: '8px',
+                                                        border: 'none',
+                                                        cursor: 'pointer',
+                                                        fontSize: 'var(--text-sm)',
+                                                        fontWeight: 600,
+                                                        letterSpacing: '0.04em',
+                                                        textTransform: 'uppercase',
+                                                        transition: 'all 0.2s ease',
+                                                        background: galleryTheme === theme
+                                                            ? `linear-gradient(135deg, ${activeProject.color}cc, ${activeProject.color}88)`
+                                                            : 'transparent',
+                                                        color: galleryTheme === theme ? '#000' : 'var(--color-text-secondary)',
+                                                        boxShadow: galleryTheme === theme ? `0 2px 12px ${activeProject.color}40` : 'none'
+                                                    }}
+                                                >
+                                                    {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+                                                </button>
+                                            ))}
                                         </div>
-                                    </div>
+                                    )}
 
-                                    {/* Thumbnail Strip */}
-                                    <div style={{
-                                        height: '80px',
-                                        display: 'flex',
-                                        gap: '12px',
-                                        overflowX: 'auto',
-                                        paddingBottom: '8px',
-                                        scrollbarWidth: 'thin',
-                                        scrollbarColor: 'var(--color-border) transparent'
-                                    }}>
-                                        {activeProject.images.map((img, idx) => (
-                                            <button
-                                                key={idx}
-                                                onClick={() => setActiveImageIndex(idx)}
-                                                style={{
-                                                    minWidth: '120px',
-                                                    height: '100%',
-                                                    borderRadius: '8px',
-                                                    border: idx === activeImageIndex ? `2px solid ${activeProject.color}` : '2px solid transparent',
-                                                    padding: 0,
-                                                    overflow: 'hidden',
-                                                    cursor: 'pointer',
-                                                    opacity: idx === activeImageIndex ? 1 : 0.6,
-                                                    transition: 'all 0.2s ease',
-                                                    background: '#000'
-                                                }}
-                                                onMouseOver={(e) => e.currentTarget.style.opacity = '1'}
-                                                onMouseOut={(e) => { if (idx !== activeImageIndex) e.currentTarget.style.opacity = '0.6'; }}
-                                            >
-                                                <img src={img} alt={`Thumb ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                            </button>
-                                        ))}
-                                    </div>
+                                    {(() => {
+                                        const imgs = activeProject.darkImages
+                                            ? (galleryTheme === 'dark' ? activeProject.darkImages : activeProject.lightImages)
+                                            : activeProject.images;
+                                        return (
+                                            <>
+                                                {/* Main Image Viewer */}
+                                                <div
+                                                    onClick={() => setIsFullscreen(true)}
+                                                    style={{
+                                                        flex: 1,
+                                                        borderRadius: '16px',
+                                                        overflow: 'hidden',
+                                                        marginBottom: 'var(--space-4)',
+                                                        background: '#000',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        position: 'relative',
+                                                        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1)',
+                                                        cursor: 'zoom-in'
+                                                    }}
+                                                    title="Click to view fullscreen"
+                                                >
+                                                    <AnimatePresence mode="wait">
+                                                        <motion.img
+                                                            key={`${galleryTheme}-${activeImageIndex}`}
+                                                            src={imgs[activeImageIndex]}
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            exit={{ opacity: 0 }}
+                                                            transition={{ duration: 0.2 }}
+                                                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                                            alt={`Screenshot ${activeImageIndex + 1}`}
+                                                        />
+                                                    </AnimatePresence>
+                                                    <div style={{
+                                                        position: 'absolute',
+                                                        bottom: '16px',
+                                                        right: '16px',
+                                                        background: 'rgba(0,0,0,0.6)',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '20px',
+                                                        fontSize: 'var(--text-sm)',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '8px'
+                                                    }}>
+                                                        <span>{activeImageIndex + 1} / {imgs.length}</span>
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                                            <polyline points="9 21 3 21 3 15"></polyline>
+                                                            <line x1="21" y1="3" x2="14" y2="10"></line>
+                                                            <line x1="3" y1="21" x2="10" y2="14"></line>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+
+                                                {/* Thumbnail Strip */}
+                                                <div style={{
+                                                    height: '80px',
+                                                    display: 'flex',
+                                                    gap: '12px',
+                                                    overflowX: 'auto',
+                                                    paddingBottom: '8px',
+                                                    scrollbarWidth: 'thin',
+                                                    scrollbarColor: 'var(--color-border) transparent'
+                                                }}>
+                                                    {imgs.map((img, idx) => (
+                                                        <button
+                                                            key={`${galleryTheme}-${idx}`}
+                                                            onClick={() => setActiveImageIndex(idx)}
+                                                            style={{
+                                                                minWidth: '120px',
+                                                                height: '100%',
+                                                                borderRadius: '8px',
+                                                                border: idx === activeImageIndex ? `2px solid ${activeProject.color}` : '2px solid transparent',
+                                                                padding: 0,
+                                                                overflow: 'hidden',
+                                                                cursor: 'pointer',
+                                                                opacity: idx === activeImageIndex ? 1 : 0.6,
+                                                                transition: 'all 0.2s ease',
+                                                                background: '#000'
+                                                            }}
+                                                            onMouseOver={(e) => e.currentTarget.style.opacity = '1'}
+                                                            onMouseOut={(e) => { if (idx !== activeImageIndex) e.currentTarget.style.opacity = '0.6'; }}
+                                                        >
+                                                            <img src={img} alt={`Thumb ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
                                 </div>
 
                                 {/* Right Column: Details */}
@@ -609,6 +680,24 @@ const Projects = () => {
                                             {activeProject.fullDescription}
                                         </p>
                                     </div>
+
+                                    {/* Award Badge in modal */}
+                                    {activeProject.award && (
+                                        <div style={{
+                                            padding: '16px',
+                                            borderRadius: '12px',
+                                            background: `linear-gradient(135deg, ${activeProject.color}18, ${activeProject.color}08)`,
+                                            border: `1px solid ${activeProject.color}40`,
+                                            boxShadow: `0 0 20px ${activeProject.color}15`
+                                        }}>
+                                            <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: activeProject.color, marginBottom: '4px' }}>
+                                                {activeProject.award.text}
+                                            </div>
+                                            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>
+                                                {activeProject.award.subtitle}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     <div>
                                         <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px', fontSize: 'var(--text-lg)' }}>Status</h3>

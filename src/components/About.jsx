@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import TechStack from './TechStack';
+
 
 const About = () => {
     return (
@@ -90,10 +90,6 @@ const About = () => {
                                 and best practices to stay at the forefront of web development.
                             </p>
 
-                            {/* Tech Stack Carousel */}
-                            <div style={{ marginTop: 'var(--space-6)' }}>
-                                <TechStack />
-                            </div>
                         </motion.div>
                     </div>
                 </motion.div>

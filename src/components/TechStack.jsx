@@ -34,25 +34,22 @@ const TechStack = () => {
     const duplicatedTechnologies = [...technologies, ...technologies];
 
     return (
-        <div className="card" style={{
+        <section style={{
+            width: '100vw',
+            position: 'relative',
+            left: '50%',
+            right: '50%',
+            marginLeft: '-50vw',
+            marginRight: '-50vw',
+            padding: 'var(--space-4) 0',
+            background: 'var(--color-bg-primary)',
+            borderTop: '1px solid rgba(255,255,255,0.05)',
+            borderBottom: '1px solid rgba(255,255,255,0.05)',
             overflow: 'hidden',
-            padding: 'var(--space-6) 0',
-            background: 'rgba(30, 41, 59, 0.3)',
-            border: '1px solid var(--color-border)',
-            position: 'relative'
+            display: 'flex',
+            alignItems: 'center',
+            minHeight: '120px'
         }}>
-            <h3 style={{
-                fontSize: 'var(--text-lg)',
-                marginBottom: 'var(--space-5)',
-                color: 'var(--color-text-primary)',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                textAlign: 'center'
-            }}>
-                Tech Stack
-            </h3>
-
             {/* Gradient Masks for Fade Effect */}
             <div style={{
                 position: 'absolute',
@@ -60,7 +57,7 @@ const TechStack = () => {
                 bottom: 0,
                 left: 0,
                 width: '100px',
-                background: 'linear-gradient(to right, var(--color-bg-tertiary), transparent)',
+                background: 'linear-gradient(to right, var(--color-bg-primary), transparent)',
                 zIndex: 2,
                 pointerEvents: 'none'
             }} />
@@ -70,7 +67,7 @@ const TechStack = () => {
                 bottom: 0,
                 right: 0,
                 width: '100px',
-                background: 'linear-gradient(to left, var(--color-bg-tertiary), transparent)',
+                background: 'linear-gradient(to left, var(--color-bg-primary), transparent)',
                 zIndex: 2,
                 pointerEvents: 'none'
             }} />
@@ -128,7 +125,7 @@ const TechStack = () => {
                     ))}
                 </motion.div>
             </div>
-        </div>
+        </section>
     );
 };
 
