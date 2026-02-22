@@ -10,6 +10,10 @@ import {
     SiMongodb,
     SiStripe,
     SiNextdotjs,
+    SiTailwindcss,
+    SiVite,
+    SiRadixui,
+    SiZod,
 } from 'react-icons/si';
 
 const Projects = () => {
@@ -64,16 +68,38 @@ const Projects = () => {
         // We can keep a few dummy ones or just JustiTrack if that's what's needed, but let's keep one other to show the carousel works.
         {
             id: 2,
-            title: 'E-Commerce Platform',
-            description: 'A full-featured online shopping platform with payment integration and admin dashboard.',
+            title: 'Sistema Contable',
+            description: 'Solución moderna para la gestión contable y financiera.',
+            fullDescription: 'El "Sistema de Gestión Contable" es una herramienta integral diseñada para optimizar la administración financiera. Ofrece control de cuentas, estados financieros automáticos, inventario (Kardex PEPS), nómina y análisis financiero avanzado con indicadores de liquidez y rentabilidad.',
+            status: 'ESTADO DEL PROYECTO: TERMINADO',
             tags: [
                 { name: 'React', icon: SiReact, color: '#61DAFB' },
-                { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
-                { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-                { name: 'Stripe', icon: SiStripe, color: '#008CDD' }
+                { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
+                { name: 'Vite', icon: SiVite, color: '#646CFF' },
+                { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
+                { name: 'Radix UI', icon: SiRadixui, color: '#FFFFFF' },
+                { name: 'Zod', icon: SiZod, color: '#3E3355' }
             ],
-            color: '#3b82f6', // Blue
-            coverImage: ''
+            color: '#10b981', // Emerald
+            coverImage: '/sistema-contable/inicio.png',
+            images: [
+                '/sistema-contable/inicio.png',
+                '/sistema-contable/cuentas.png',
+                '/sistema-contable/balance.png',
+                '/sistema-contable/balance2.png',
+                '/sistema-contable/resultados.png',
+                '/sistema-contable/resultados1.png',
+                '/sistema-contable/resultados2.png',
+                '/sistema-contable/kardex.png',
+                '/sistema-contable/nomina.png',
+                '/sistema-contable/depre.png',
+                '/sistema-contable/depre1.png',
+                '/sistema-contable/depre2.png',
+                '/sistema-contable/analisis.png',
+                '/sistema-contable/analisiss1.png'
+            ],
+            githubLink: 'https://github.com/Santiagodutr/Sistema-contable-para-administracion-financiera',
+            liveLink: 'https://sistema-contable-para-administracio.vercel.app/'
         },
         {
             id: 3,
