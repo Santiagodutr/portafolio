@@ -50,19 +50,22 @@ const About = () => {
                                 <div style={{
                                     width: '100%',
                                     height: '100%',
-                                    borderRadius: 'var(--border-radius-lg)',
+                                    borderRadius: 'calc(var(--border-radius-lg) - 2px)',
                                     background: 'var(--color-bg-secondary)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    fontSize: 'var(--text-4xl)',
-                                    color: 'var(--color-text-tertiary)',
+                                    overflow: 'hidden'
                                 }}>
-                                    {/* Placeholder for profile image */}
-                                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                        <circle cx="12" cy="7" r="4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
+                                    <img
+                                        src="/me/ME.jpeg"
+                                        alt="Santiago Duarte"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </motion.div>
