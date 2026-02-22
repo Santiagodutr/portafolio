@@ -9,7 +9,8 @@
 /* ======================================== 
    CSS Custom Properties (Design Tokens)
    ======================================== */
-:root {
+:root,
+[data-theme="dark"] {
   /* Colors - Modern Clean Dark Theme (Slate/Blue) */
   --color-bg-primary: #020817;
   /* Deep Slate/Navy */
@@ -34,10 +35,18 @@
   --color-border: #1e293b;
   /* Slate 800 */
 
+  /* Components */
+  --color-card-bg: rgba(30, 41, 59, 0.3);
+  --color-card-border: rgba(255, 255, 255, 0.06);
+  --color-tag-bg: rgba(255, 255, 255, 0.03);
+  --color-tag-border: rgba(255, 255, 255, 0.06);
+
   /* Typography */
   /* Using Inter for a clean, modern SaaS look */
-  --font-display: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Inter',
+    sans-serif;
+  --font-body: 'Inter',
+    sans-serif;
 
   /* Fluid Typography Scale */
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
@@ -86,6 +95,32 @@
   --border-radius-lg: 16px;
 }
 
+/* Light Theme Overrides */
+[data-theme="light"] {
+  --color-bg-primary: #f8fafc;
+  /* Slate 50 */
+  --color-bg-secondary: #ffffff;
+  /* White */
+  --color-bg-tertiary: #f1f5f9;
+  /* Slate 100 */
+
+  --color-text-primary: #0f172a;
+  /* Slate 900 */
+  --color-text-secondary: #475569;
+  /* Slate 600 */
+  --color-text-tertiary: #64748b;
+  /* Slate 500 */
+
+  --color-border: #e2e8f0;
+  /* Slate 200 */
+
+  /* Components */
+  --color-card-bg: rgba(255, 255, 255, 0.8);
+  --color-card-border: rgba(0, 0, 0, 0.08);
+  --color-tag-bg: rgba(0, 0, 0, 0.04);
+  --color-tag-border: rgba(0, 0, 0, 0.08);
+}
+
 /* ======================================== 
    Reset & Base Styles
    ======================================== */
@@ -99,8 +134,8 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  scroll-padding-top: 100px;
+  /* offset for fixed navbar */
 }
 
 body {
@@ -112,6 +147,7 @@ body {
   background-color: var(--color-bg-primary);
   overflow-x: hidden;
   width: 100%;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* ======================================== 
@@ -245,6 +281,37 @@ p {
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: all var(--transition-fast);
+}
+
+/* ======================================== 
+   Form Elements
+   ======================================== */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.form-input:focus {
+  border-color: var(--color-accent-primary);
+  background: rgba(15, 23, 42, 0.6);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .btn-primary {

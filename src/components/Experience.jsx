@@ -4,40 +4,17 @@ const Experience = () => {
     const experiences = [
         {
             id: 1,
-            company: 'Tech Company Inc.',
-            role: 'Senior Frontend Developer',
-            period: '2022 - Present',
+            company: 'El Mayorista - Remoto (Colombia)',
+            role: 'Desarrollador Full Stack — Módulo de Inventario',
+            period: 'Octubre 2025 – Diciembre 2025',
             achievements: [
-                'Led development of new component library used across 5+ products',
-                'Improved application performance by 40% through optimization',
-                'Mentored junior developers and conducted code reviews',
+                'Colaboré en el desarrollo Full Stack, asumiendo un rol clave en el diseño de la interfaz (UI) y la experiencia de usuario (UX) de la aplicación.',
+                'Contribuí al desarrollo del módulo de inventario bajo arquitectura Modulith + DDD, con dominio completamente aislado y aplicación del principio de inversión de dependencias.',
+                'Ayudé a implementar búsqueda inteligente con pg_vector, paginación avanzada y optimización de la carga inicial de más de 4.600 productos a ~3 segundos mediante Spring Batch.',
+                'Colaboré en la implementación de eventos de dominio, WebSockets para sincronización en tiempo real y pipelines de carga masiva de datos e imágenes en AWS.'
             ],
-            technologies: ['React', 'TypeScript', 'Next.js', 'GraphQL'],
-        },
-        {
-            id: 2,
-            company: 'Digital Agency',
-            role: 'Full Stack Developer',
-            period: '2020 - 2022',
-            achievements: [
-                'Built and deployed 15+ client websites and web applications',
-                'Implemented CI/CD pipelines reducing deployment time by 60%',
-                'Collaborated with design team to create seamless user experiences',
-            ],
-            technologies: ['React', 'Node.js', 'MongoDB', 'AWS'],
-        },
-        {
-            id: 3,
-            company: 'Startup Ventures',
-            role: 'Junior Developer',
-            period: '2018 - 2020',
-            achievements: [
-                'Developed features for SaaS platform with 10k+ active users',
-                'Participated in agile development process and sprint planning',
-                'Wrote comprehensive unit and integration tests',
-            ],
-            technologies: ['JavaScript', 'Vue.js', 'Python', 'PostgreSQL'],
-        },
+            technologies: ['React', 'Spring Boot', 'PostgreSQL', 'pg_vector', 'AWS', 'WebSockets'],
+        }
     ];
 
     return (

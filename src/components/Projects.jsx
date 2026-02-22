@@ -302,13 +302,14 @@ const Projects = () => {
                                     display: 'flex',
                                     flexDirection: 'column',
                                     gap: 'var(--space-4)',
-                                    background: 'rgba(30, 41, 59, 0.3)',
+                                    background: 'var(--color-card-bg)',
                                     backdropFilter: 'blur(12px)',
-                                    border: '1px solid rgba(255,255,255,0.06)',
+                                    WebkitBackdropFilter: 'blur(12px)',
+                                    border: '1px solid var(--color-card-border)',
                                     padding: 'var(--space-5)',
                                     borderRadius: 'var(--border-radius-lg)',
                                     overflow: 'hidden',
-                                    boxShadow: 'none' // Remove default glow, keep clean
+                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)' // Subtle shadow for light mode grounding
                                 }}
                             >
                                 {/* Image Placeholder or Cover Image */}
@@ -394,8 +395,8 @@ const Projects = () => {
                                                 gap: '4px',
                                                 padding: '4px 10px',
                                                 borderRadius: '20px',
-                                                background: 'rgba(255,255,255,0.03)',
-                                                border: '1px solid rgba(255,255,255,0.06)'
+                                                background: 'var(--color-tag-bg)',
+                                                border: '1px solid var(--color-tag-border)'
                                             }}>
                                                 <div style={{ color: tech.color, display: 'flex', fontSize: '1rem' }}>
                                                     <tech.icon />
@@ -411,8 +412,8 @@ const Projects = () => {
                                                 alignItems: 'center',
                                                 padding: '4px 10px',
                                                 borderRadius: '20px',
-                                                background: 'rgba(255,255,255,0.03)',
-                                                border: '1px solid rgba(255,255,255,0.06)'
+                                                background: 'var(--color-tag-bg)',
+                                                border: '1px solid var(--color-tag-border)'
                                             }}>
                                                 <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
                                                     +{project.tags.length - 4}
@@ -423,11 +424,11 @@ const Projects = () => {
 
                                     {project.fullDescription ? (
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'auto' }}>
-                                            <button onClick={() => openModal(index)} className="btn btn-primary" style={{ background: project.color, borderColor: project.color, color: '#000', flex: 1, padding: '0.5rem 1rem' }}>
+                                            <button onClick={() => openModal(index)} className="btn btn-primary" style={{ background: project.color, borderColor: project.color, color: '#ffffff', flex: 1, padding: '0.5rem 1rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
                                                 Ver más
                                             </button>
                                             {project.liveLink && (
-                                                <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flex: 1, padding: '0.5rem 1rem' }}>
+                                                <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flex: 1, padding: '0.5rem 1rem', borderColor: 'var(--color-card-border)', color: 'var(--color-text-primary)' }}>
                                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                                     App
                                                 </a>
@@ -720,22 +721,11 @@ const Projects = () => {
                                         <div style={{
                                             overflow: 'hidden',
                                             padding: 'var(--space-2) 0',
-                                            background: 'rgba(255, 255, 255, 0.02)',
-                                            borderRadius: '12px',
-                                            border: '1px solid rgba(255,255,255,0.05)',
-                                            position: 'relative'
+                                            position: 'relative',
+                                            display: 'flex',
+                                            width: '100%'
                                         }}>
-                                            {/* Gradient Masks */}
-                                            <div style={{
-                                                position: 'absolute', top: 0, bottom: 0, left: 0, width: '40px',
-                                                background: 'linear-gradient(to right, rgb(30, 41, 59), transparent)',
-                                                zIndex: 2, pointerEvents: 'none'
-                                            }} />
-                                            <div style={{
-                                                position: 'absolute', top: 0, bottom: 0, right: 0, width: '40px',
-                                                background: 'linear-gradient(to left, rgb(30, 41, 59), transparent)',
-                                                zIndex: 2, pointerEvents: 'none'
-                                            }} />
+                                            {/* Removed Gradient Masks to match the main tech stack flat style */}
 
                                             <div style={{ display: 'flex', width: '100%' }}>
                                                 <motion.div
@@ -762,16 +752,14 @@ const Projects = () => {
                                                                 display: 'flex',
                                                                 alignItems: 'center',
                                                                 gap: '8px',
-                                                                background: 'rgba(255,255,255,0.05)',
-                                                                padding: '8px 16px',
-                                                                borderRadius: '20px',
-                                                                border: '1px solid rgba(255,255,255,0.1)'
+                                                                padding: '8px 16px'
+                                                                // Removed background and border to match flat style
                                                             }}
                                                         >
-                                                            <div style={{ color: tech.color, display: 'flex', fontSize: '1.2rem' }}>
+                                                            <div style={{ color: tech.color, display: 'flex', fontSize: '1.5rem' }}>
                                                                 <tech.icon />
                                                             </div>
-                                                            <span style={{ fontSize: 'var(--text-sm)', color: '#fff' }}>
+                                                            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', fontWeight: 500 }}>
                                                                 {tech.name}
                                                             </span>
                                                         </div>
