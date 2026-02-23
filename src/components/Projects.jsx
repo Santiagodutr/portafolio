@@ -263,7 +263,7 @@ const Projects = () => {
                     transition={{ duration: 0.6 }}
                 >
                     {/* Section Header */}
-                    <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 'var(--space-8)' }}>
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}

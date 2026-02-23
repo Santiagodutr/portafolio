@@ -489,41 +489,54 @@ p {
   background: var(--color-border);
 }
 
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.mobile-divider {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .navbar-container {
-    padding: var(--space-2) var(--space-3);
-    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    gap: var(--space-3);
+    width: auto;
   }
 
   .navbar-links {
-    gap: var(--space-2);
+    display: none !important;
   }
 
-  .navbar-links a {
-    font-size: var(--text-xs) !important;
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .mobile-divider {
+    display: block;
+    width: 1px;
+    height: 24px;
+    background: var(--color-border);
+  }
+
+  .desktop-divider {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
   .navbar-container {
     border-radius: var(--border-radius-lg);
-    width: 90%;
-    justify-content: space-around;
-  }
-
-  /* Hide the text links on very small screens or make them smaller */
-  .navbar-links {
-    gap: var(--space-1);
-  }
-
-  .navbar-links a {
-    display: none;
-    /* Alternatively, we can show icons or an ellipsis menu. Hiding them for a cleaner look on tiny screens, or we just let them wrap. Let's make them really small instead of hiding. */
-  }
-
-  .navbar-links a:first-child,
-  .navbar-links a:nth-child(2) {
-    display: block;
-    font-size: 0.7rem !important;
+    width: calc(100vw - var(--space-8));
+    max-width: 400px;
+    justify-content: space-between;
   }
 }

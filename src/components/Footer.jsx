@@ -79,8 +79,7 @@ const Footer = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <h2 style={{ marginBottom: 'var(--space-4)' }}>
-                        {t('footer.ready')} <span className="gradient-text">Together</span>
-                        {/* Note: In a fully refined version 'Let's Work Together' can be split, using the existing footer.ready translation for now */}
+                        {t('footer.ready')} <span className="gradient-text">{t('footer.together')}</span>
                     </h2>
                     <p style={{
                         fontSize: 'var(--text-lg)',

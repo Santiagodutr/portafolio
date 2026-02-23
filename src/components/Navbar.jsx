@@ -1,16 +1,29 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../context/LanguageContext';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
     const { theme, setTheme } = useTheme();
     const { language, toggleLanguage, t } = useLanguage();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isMobileMenuOpen]);
 
     const navLinks = [
+        { name: t('nav.about'), href: '#about' },
         { name: t('nav.projects'), href: '#projects' },
-        { name: t('nav.skills'), href: '#skills' },
         { name: t('nav.experience'), href: '#experience' },
-        { name: t('nav.about'), href: '#about' }
+        { name: t('nav.contact'), href: '#contact' }
     ];
 
     const cycleTheme = () => {
@@ -64,6 +77,30 @@ const Navbar = () => {
             }}
         >
             <nav className="navbar-container">
+                {/* Mobile Menu Button */}
+                <button
+                    className="mobile-menu-btn"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        {isMobileMenuOpen ? (
+                            <>
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </>
+                        ) : (
+                            <>
+                                <line x1="3" y1="12" x2="21" y2="12"></line>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <line x1="3" y1="18" x2="21" y2="18"></line>
+                            </>
+                        )}
+                    </svg>
+                </button>
+
+                <div className="navbar-divider mobile-divider" />
+
                 {/* Navigation Links */}
                 <div className="navbar-links">
                     {navLinks.map((link) => (
@@ -86,7 +123,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Vertical Divider */}
-                <div className="navbar-divider" />
+                <div className="navbar-divider desktop-divider" />
 
                 {/* Theme Toggle Button */}
                 <button
@@ -157,6 +194,70 @@ const Navbar = () => {
                     {language.toUpperCase()}
                 </button>
             </nav>
+
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        style={{
+                            position: 'absolute',
+                            top: '100%',
+                            marginTop: 'var(--space-3)',
+                            left: '50%',
+                            x: '-50%',
+                            width: 'calc(100vw - var(--space-8))',
+                            maxWidth: '380px',
+                            background: 'var(--color-bg-secondary)',
+                            backdropFilter: 'blur(20px)',
+                            WebkitBackdropFilter: 'blur(20px)',
+                            border: '1px solid var(--color-border)',
+                            borderRadius: 'var(--border-radius-lg)',
+                            padding: 'var(--space-4)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 'var(--space-2)',
+                            pointerEvents: 'auto',
+                            boxShadow: '0 20px 40px rgba(0,0,0,0.15)'
+                        }}
+                    >
+                        {navLinks.map((link, i) => (
+                            <motion.a
+                                key={link.name}
+                                href={link.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.05 }}
+                                style={{
+                                    color: 'var(--color-text-primary)',
+                                    textDecoration: 'none',
+                                    fontSize: 'var(--text-lg)',
+                                    fontWeight: '500',
+                                    padding: 'var(--space-3)',
+                                    borderRadius: '8px',
+                                    background: 'var(--color-card-bg)',
+                                    border: '1px solid transparent',
+                                    textAlign: 'center',
+                                    transition: 'all 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderColor = 'var(--color-accent-primary)';
+                                    e.currentTarget.style.background = 'var(--color-tag-bg)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderColor = 'transparent';
+                                    e.currentTarget.style.background = 'var(--color-card-bg)';
+                                }}
+                            >
+                                {link.name}
+                            </motion.a>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };

@@ -3,19 +3,20 @@ export const translations = {
         // Navbar
         'nav.projects': 'Proyectos',
         'nav.skills': 'Skills',
-        'nav.experience': 'Educación',
+        'nav.experience': 'Experiencia',
         'nav.about': 'Sobre mí',
+        'nav.contact': 'Contacto',
         // Hero
         'hero.greeting': 'Hola, soy',
         'hero.role': 'Desarrollador Full Stack',
         'hero.title.1': 'Construyendo productos digitales que ',
         'hero.title.2': 'importan.',
-        'hero.description': 'Creo experiencias web accesibles, con una precisión al píxel (pixel-perfect) y de alto rendimiento, utilizando tecnologías y principios de diseño modernos.',
+        'hero.description': 'Creo experiencias web accesibles, con una precisión al píxel y de alto rendimiento, utilizando tecnologías y principios de diseño modernos.',
         'hero.cta.projects': 'Ver Proyectos',
         'hero.cta.contact': 'Contactar',
         // Projects
-        'projects.title.1': 'Featured',
-        'projects.title.2': 'Projects',
+        'projects.title.1': 'Proyectos',
+        'projects.title.2': 'Destacados',
         'projects.subtitle': 'Explora mi trabajo más reciente e impactante',
         'projects.award': '🏆 2° Lugar — Retos de Innovación',
         'projects.award.subtitle': 'Gobernación del Meta',
@@ -48,8 +49,8 @@ export const translations = {
         // Tech Stack
         'tech.title': 'Tecnologías & Herramientas',
         // Experience / Education
-        'exp.title.2': 'Experiencia',
-        'exp.title.1': 'Laboral',
+        'exp.title.1': 'Experiencia',
+        'exp.title.2': 'Laboral',
         'exp.subtitle': 'Educación y Experiencia Profesional',
         'exp.1.title': 'Desarrollador Full Stack — Módulo de Inventario',
         'exp.1.company': 'El Mayorista - Remoto (Colombia)',
@@ -67,6 +68,7 @@ export const translations = {
         'about.techTitle': 'Tecnologías con las que trabajo habitualmente:',
         // Footer
         'footer.ready': '¿Listo para trabajar',
+        'footer.together': 'juntos?',
         'footer.discuss': 'Siempre estoy interesado en escuchar sobre nuevos proyectos y oportunidades.',
         'footer.getInTouch': 'Ponerse en Contacto',
         'footer.developedBy': 'Desarrollado por',
@@ -93,6 +95,7 @@ export const translations = {
         'nav.skills': 'Skills',
         'nav.experience': 'Experience',
         'nav.about': 'About',
+        'nav.contact': 'Contact',
         // Hero
         'hero.greeting': "Hi, I'm",
         'hero.role': 'Full Stack Developer',
@@ -155,6 +158,7 @@ export const translations = {
         'about.techTitle': 'Technologies I frequently work with:',
         // Footer
         'footer.ready': 'Ready to work',
+        'footer.together': 'Together?',
         'footer.discuss': "I'm always interested in hearing about new projects and opportunities.",
         'footer.getInTouch': 'Get In Touch',
         'footer.developedBy': 'Developed by',
