@@ -248,6 +248,7 @@ const Projects = () => {
     }, [isModalOpen, isFullscreen, activeIndex, projects, galleryTheme]);
 
     const activeProject = projects[activeIndex];
+    const currentImages = activeProject ? (activeProject.darkImages ? (galleryTheme === 'dark' ? activeProject.darkImages : activeProject.lightImages) : activeProject.images) : [];
 
     return (
         <section id="projects" className="section" style={{
@@ -567,102 +568,97 @@ const Projects = () => {
                                         </div>
                                     )}
 
-                                    {(() => {
-                                        const imgs = activeProject.darkImages
-                                            ? (galleryTheme === 'dark' ? activeProject.darkImages : activeProject.lightImages)
-                                            : activeProject.images;
-                                        return (
-                                            <>
-                                                {/* Main Image Viewer */}
-                                                <div
-                                                    onClick={() => setIsFullscreen(true)}
-                                                    style={{
-                                                        flex: 1,
-                                                        borderRadius: '16px',
-                                                        overflow: 'hidden',
-                                                        marginBottom: 'var(--space-4)',
-                                                        background: '#000',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        position: 'relative',
-                                                        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1)',
-                                                        cursor: 'zoom-in',
-                                                        minHeight: '200px' // Ensure main image area doesn't collapse
-                                                    }}
-                                                    title="Click to view fullscreen"
-                                                >
-                                                    <AnimatePresence mode="wait">
-                                                        <motion.img
-                                                            key={`${galleryTheme}-${activeImageIndex}`}
-                                                            src={imgs[activeImageIndex]}
-                                                            initial={{ opacity: 0 }}
-                                                            animate={{ opacity: 1 }}
-                                                            exit={{ opacity: 0 }}
-                                                            transition={{ duration: 0.2 }}
-                                                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                                            alt={`Screenshot ${activeImageIndex + 1}`}
-                                                        />
-                                                    </AnimatePresence>
-                                                    <div style={{
-                                                        position: 'absolute',
-                                                        bottom: '16px',
-                                                        right: '16px',
-                                                        background: 'rgba(0,0,0,0.6)',
-                                                        padding: '4px 12px',
-                                                        borderRadius: '20px',
-                                                        fontSize: 'var(--text-sm)',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: '8px'
-                                                    }}>
-                                                        <span>{activeImageIndex + 1} / {imgs.length}</span>
-                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                            <polyline points="15 3 21 3 21 9"></polyline>
-                                                            <polyline points="9 21 3 21 3 15"></polyline>
-                                                            <line x1="21" y1="3" x2="14" y2="10"></line>
-                                                            <line x1="3" y1="21" x2="10" y2="14"></line>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-
-                                                {/* Thumbnail Strip */}
-                                                <div style={{
-                                                    height: '80px',
-                                                    minHeight: '80px', // Prevent flex shrinking to 0
+                                    {currentImages && currentImages.length > 0 && (
+                                        <>
+                                            {/* Main Image Viewer */}
+                                            <div
+                                                onClick={() => setIsFullscreen(true)}
+                                                style={{
+                                                    flex: 1,
+                                                    borderRadius: '16px',
+                                                    overflow: 'hidden',
+                                                    marginBottom: 'var(--space-4)',
+                                                    background: '#000',
                                                     display: 'flex',
-                                                    gap: '12px',
-                                                    overflowX: 'auto',
-                                                    paddingBottom: '8px',
-                                                    scrollbarWidth: 'thin',
-                                                    scrollbarColor: 'var(--color-border) transparent'
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    position: 'relative',
+                                                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1)',
+                                                    cursor: 'zoom-in',
+                                                    minHeight: '200px' // Ensure main image area doesn't collapse
+                                                }}
+                                                title="Click to view fullscreen"
+                                            >
+                                                <AnimatePresence mode="wait">
+                                                    <motion.img
+                                                        key={`${galleryTheme}-${activeImageIndex}`}
+                                                        src={currentImages[activeImageIndex]}
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                        transition={{ duration: 0.2 }}
+                                                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                                        alt={`Screenshot ${activeImageIndex + 1}`}
+                                                    />
+                                                </AnimatePresence>
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    bottom: '16px',
+                                                    right: '16px',
+                                                    background: 'rgba(0,0,0,0.6)',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '20px',
+                                                    fontSize: 'var(--text-sm)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '8px'
                                                 }}>
-                                                    {imgs.map((img, idx) => (
-                                                        <button
-                                                            key={`${galleryTheme}-${idx}`}
-                                                            onClick={() => setActiveImageIndex(idx)}
-                                                            style={{
-                                                                minWidth: '120px',
-                                                                height: '100%',
-                                                                borderRadius: '8px',
-                                                                border: idx === activeImageIndex ? `2px solid ${activeProject.color}` : '2px solid transparent',
-                                                                padding: 0,
-                                                                overflow: 'hidden',
-                                                                cursor: 'pointer',
-                                                                opacity: idx === activeImageIndex ? 1 : 0.6,
-                                                                transition: 'all 0.2s ease',
-                                                                background: 'transparent'
-                                                            }}
-                                                            onMouseOver={(e) => e.currentTarget.style.opacity = '1'}
-                                                            onMouseOut={(e) => { if (idx !== activeImageIndex) e.currentTarget.style.opacity = '0.6'; }}
-                                                        >
-                                                            <img src={img} alt={`Thumb ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                        </button>
-                                                    ))}
+                                                    <span>{activeImageIndex + 1} / {currentImages.length}</span>
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                                        <polyline points="9 21 3 21 3 15"></polyline>
+                                                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                                                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                                                    </svg>
                                                 </div>
-                                            </>
-                                        );
-                                    })()}
+                                            </div>
+
+                                            {/* Thumbnail Strip */}
+                                            <div style={{
+                                                height: '80px',
+                                                minHeight: '80px', // Prevent flex shrinking to 0
+                                                display: 'flex',
+                                                gap: '12px',
+                                                overflowX: 'auto',
+                                                paddingBottom: '8px',
+                                                scrollbarWidth: 'thin',
+                                                scrollbarColor: 'var(--color-border) transparent'
+                                            }}>
+                                                {currentImages.map((img, idx) => (
+                                                    <button
+                                                        key={`${galleryTheme}-${idx}`}
+                                                        onClick={() => setActiveImageIndex(idx)}
+                                                        style={{
+                                                            minWidth: '120px',
+                                                            height: '100%',
+                                                            borderRadius: '8px',
+                                                            border: idx === activeImageIndex ? `2px solid ${activeProject.color}` : '2px solid transparent',
+                                                            padding: 0,
+                                                            overflow: 'hidden',
+                                                            cursor: 'pointer',
+                                                            opacity: idx === activeImageIndex ? 1 : 0.6,
+                                                            transition: 'all 0.2s ease',
+                                                            background: 'transparent'
+                                                        }}
+                                                        onMouseOver={(e) => e.currentTarget.style.opacity = '1'}
+                                                        onMouseOut={(e) => { if (idx !== activeImageIndex) e.currentTarget.style.opacity = '0.6'; }}
+                                                    >
+                                                        <img src={img} alt={`Thumb ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
 
                                 {/* Right Column: Details */}
@@ -791,7 +787,7 @@ const Projects = () => {
 
             {/* Fullscreen Image Overlay */}
             <AnimatePresence>
-                {isFullscreen && isModalOpen && activeProject.images && (
+                {isFullscreen && isModalOpen && currentImages && currentImages.length > 0 && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -844,7 +840,7 @@ const Projects = () => {
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setActiveImageIndex((prev) => (prev - 1 + activeProject.images.length) % activeProject.images.length);
+                                setActiveImageIndex((prev) => (prev - 1 + currentImages.length) % currentImages.length);
                             }}
                             style={{
                                 position: 'absolute',
@@ -873,7 +869,7 @@ const Projects = () => {
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setActiveImageIndex((prev) => (prev + 1) % activeProject.images.length);
+                                setActiveImageIndex((prev) => (prev + 1) % currentImages.length);
                             }}
                             style={{
                                 position: 'absolute',
@@ -902,7 +898,7 @@ const Projects = () => {
                         <AnimatePresence mode="wait">
                             <motion.img
                                 key={`full-${activeImageIndex}`}
-                                src={activeProject.images[activeImageIndex]}
+                                src={currentImages[activeImageIndex]}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
@@ -926,12 +922,12 @@ const Projects = () => {
                             color: '#fff',
                             fontSize: 'var(--text-md)'
                         }}>
-                            {activeImageIndex + 1} / {activeProject.images.length}
+                            {activeImageIndex + 1} / {currentImages.length}
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </section>
+        </section >
     );
 };
 
