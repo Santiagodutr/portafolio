@@ -44,7 +44,8 @@ const TechStack = () => {
             borderBottom: '1px solid rgba(255,255,255,0.05)',
             display: 'flex',
             alignItems: 'center',
-            minHeight: '120px'
+            minHeight: '120px',
+            overflow: 'hidden'
         }}>
             {/* Gradient Masks for Fade Effect */}
             <div style={{

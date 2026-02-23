@@ -103,14 +103,16 @@ const ContactModal = ({ isOpen, onClose }) => {
                         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                         style={{
                             position: 'relative',
-                            width: '100%',
+                            width: 'calc(100% - var(--space-4))',
                             maxWidth: '500px',
                             background: 'var(--color-bg-primary)',
                             border: '1px solid rgba(255,255,255,0.1)',
                             borderRadius: 'var(--border-radius-lg)',
                             padding: 'var(--space-6)',
                             boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-                            zIndex: 1
+                            zIndex: 1,
+                            maxHeight: '90vh',
+                            overflowY: 'auto'
                         }}
                         onClick={e => e.stopPropagation()}
                     >

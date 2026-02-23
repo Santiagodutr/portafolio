@@ -63,21 +63,9 @@ const Navbar = () => {
                 pointerEvents: 'none'
             }}
         >
-            <nav style={{
-                pointerEvents: 'auto',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-4)',
-                padding: 'var(--space-2) var(--space-4)',
-                background: 'rgba(30, 41, 59, 0.4)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '999px',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-            }}>
+            <nav className="navbar-container">
                 {/* Navigation Links */}
-                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
+                <div className="navbar-links">
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
@@ -98,11 +86,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Vertical Divider */}
-                <div style={{
-                    width: '1px',
-                    height: '24px',
-                    background: 'var(--color-border)',
-                }} />
+                <div className="navbar-divider" />
 
                 {/* Theme Toggle Button */}
                 <button
@@ -141,11 +125,7 @@ const Navbar = () => {
                 </button>
 
                 {/* Vertical Divider */}
-                <div style={{
-                    width: '1px',
-                    height: '16px',
-                    background: 'var(--color-border)',
-                }} />
+                <div className="navbar-divider-small" />
 
                 {/* Language Toggle Button */}
                 <button

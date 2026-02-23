@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
+// Geometric shapes data - subtle floating blobs
+const shapes = [
+  { type: 'circle', size: 400, top: '-10%', left: '-10%', delay: 0 },
+  { type: 'square', size: 300, top: '40%', right: '-5%', delay: 0.2 },
+  { type: 'circle', size: 200, bottom: '10%', left: '10%', delay: 0.4 },
+];
+
 const Hero = () => {
   const { t } = useLanguage();
-
-  // Geometric shapes data - subtle floating blobs
-  const shapes = [
-    { type: 'circle', size: 400, top: '-10%', left: '-10%', delay: 0 },
-    { type: 'square', size: 300, top: '40%', right: '-5%', delay: 0.2 },
-    { type: 'circle', size: 200, bottom: '10%', left: '10%', delay: 0.4 },
-  ];
 
   return (
     <section className="section" style={{

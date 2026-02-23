@@ -1,10 +1,11 @@
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
 const Experience = () => {
     const { t } = useLanguage();
 
-    const experiences = [
+    const experiences = useMemo(() => [
         {
             id: 1,
             company: t('exp.1.company'),
@@ -18,7 +19,7 @@ const Experience = () => {
             ],
             technologies: ['React', 'Spring Boot', 'PostgreSQL', 'pg_vector', 'AWS', 'WebSockets'],
         }
-    ];
+    ], [t]);
 
     return (
         <section id="experience" className="section">

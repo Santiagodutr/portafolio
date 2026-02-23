@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
     SiReact,
     SiTypescript,
@@ -28,7 +28,7 @@ const Projects = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [galleryTheme, setGalleryTheme] = useState('dark'); // 'dark' | 'light'
 
-    const projects = [
+    const projects = useMemo(() => [
         {
             id: 1,
             title: t('projects.1.title'),
@@ -190,7 +190,7 @@ const Projects = () => {
             ],
             githubLink: 'https://github.com/Santiagodutr/Club-Management-System'
         }
-    ];
+    ], [t]);
 
     const openModal = (index) => {
         setActiveIndex(index);
