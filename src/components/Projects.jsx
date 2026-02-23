@@ -18,7 +18,10 @@ import {
     SiAdonisjs,
 } from 'react-icons/si';
 
+import { useLanguage } from '../context/LanguageContext';
+
 const Projects = () => {
+    const { t } = useLanguage();
     const [activeIndex, setActiveIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -28,10 +31,10 @@ const Projects = () => {
     const projects = [
         {
             id: 1,
-            title: 'JustiTrack',
-            description: 'Sistema integral para la consulta y gestión de procesos judiciales.',
-            fullDescription: 'El sistema de "Consulta de Procesos Judiciales" es una solución diseñada para facilitar el seguimiento, administración y análisis exhaustivo de procesos legales. Proporciona una plataforma centralizada donde tanto personas naturales como jurídicas y firmas de abogados pueden monitorear el progreso de sus casos, recibir alertas instantáneas sobre cualquier novedad, consultar documentos relacionados e interactuar con analíticas avanzadas, todo de manera segura y multiplataforma.',
-            status: 'ESTADO DEL PROYECTO: TERMINADO',
+            title: t('projects.1.title'),
+            description: t('projects.1.desc'),
+            fullDescription: t('projects.1.fullDesc'),
+            status: t('projects.1.status'),
             tags: [
                 { name: 'React Native / Expo', icon: SiReact, color: '#61DAFB' },
                 { name: 'React', icon: SiReact, color: '#61DAFB' },
@@ -71,10 +74,10 @@ const Projects = () => {
         // We can keep a few dummy ones or just JustiTrack if that's what's needed, but let's keep one other to show the carousel works.
         {
             id: 2,
-            title: 'Sistema Contable',
-            description: 'Solución moderna para la gestión contable y financiera.',
-            fullDescription: 'El "Sistema de Gestión Contable" es una herramienta integral diseñada para optimizar la administración financiera. Ofrece control de cuentas, estados financieros automáticos, inventario (Kardex PEPS), nómina y análisis financiero avanzado con indicadores de liquidez y rentabilidad.',
-            status: 'ESTADO DEL PROYECTO: TERMINADO',
+            title: t('projects.2.title'),
+            description: t('projects.2.desc'),
+            fullDescription: t('projects.2.fullDesc'),
+            status: t('projects.2.status'),
             tags: [
                 { name: 'React', icon: SiReact, color: '#61DAFB' },
                 { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
@@ -106,13 +109,13 @@ const Projects = () => {
         },
         {
             id: 3,
-            title: 'Club el Meta',
-            description: 'Sistema de gestión de eventos, reservas y socios para la Corporación Club el Meta.',
-            fullDescription: 'Plataforma web full-stack para la Corporación Club el Meta de Villavicencio. Permite a clientes solicitar cotizaciones para reservar espacios, mientras el personal administrativo gestiona reservas, controla pagos, administra socios y consulta reportes analíticos en tiempo real.',
-            status: 'ESTADO DEL PROYECTO: TERMINADO',
+            title: t('projects.3.title'),
+            description: t('projects.3.desc'),
+            fullDescription: t('projects.3.fullDesc'),
+            status: t('projects.3.status'),
             award: {
-                text: '🏆 2° Lugar — Retos de Innovación',
-                subtitle: 'Gobernación del Meta'
+                text: t('projects.3.awardText'),
+                subtitle: t('projects.3.awardSub')
             },
             tags: [
                 { name: 'Astro', icon: SiAstro, color: '#FF5D01' },
@@ -260,25 +263,25 @@ const Projects = () => {
                     transition={{ duration: 0.6 }}
                 >
                     {/* Section Header */}
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        marginBottom: 'var(--space-7)'
-                    }}>
+                    <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5 }}
+                            style={{ marginBottom: 'var(--space-2)' }}
                         >
-                            Featured <span className="gradient-text">Projects</span>
+                            {t('projects.title.1')} <span className="gradient-text">{t('projects.title.2')}</span>
                         </motion.h2>
-                        <p style={{ marginTop: 'var(--space-2)', color: 'var(--color-text-secondary)' }}>
-                            Explore my most recent and impactful work
-                        </p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-lg)' }}
+                        >
+                            {t('projects.subtitle')}
+                        </motion.p>
                     </div>
 
                     {/* Grid Container */}
@@ -425,18 +428,18 @@ const Projects = () => {
                                     {project.fullDescription ? (
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'auto' }}>
                                             <button onClick={() => openModal(index)} className="btn btn-primary" style={{ background: project.color, borderColor: project.color, color: '#ffffff', flex: 1, padding: '0.5rem 1rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
-                                                Ver más
+                                                {t('projects.viewMore')}
                                             </button>
                                             {project.liveLink && (
                                                 <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flex: 1, padding: '0.5rem 1rem', borderColor: 'var(--color-card-border)', color: 'var(--color-text-primary)' }}>
                                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                                    App
+                                                    {t('projects.liveApp')}
                                                 </a>
                                             )}
                                         </div>
                                     ) : (
                                         <button className="btn btn-outline" style={{ marginTop: 'auto', width: '100%', padding: '0.5rem 1rem' }}>
-                                            Coming Soon
+                                            {t('projects.comingSoon')}
                                         </button>
                                     )}
                                 </div>
@@ -658,7 +661,7 @@ const Projects = () => {
                                                                 cursor: 'pointer',
                                                                 opacity: idx === activeImageIndex ? 1 : 0.6,
                                                                 transition: 'all 0.2s ease',
-                                                                background: '#000'
+                                                                background: 'transparent'
                                                             }}
                                                             onMouseOver={(e) => e.currentTarget.style.opacity = '1'}
                                                             onMouseOut={(e) => { if (idx !== activeImageIndex) e.currentTarget.style.opacity = '0.6'; }}
@@ -683,7 +686,7 @@ const Projects = () => {
                                     scrollbarWidth: 'thin'
                                 }}>
                                     <div>
-                                        <h3 style={{ color: activeProject.color, marginBottom: 'var(--space-2)', fontSize: 'var(--text-xl)' }}>About the Project</h3>
+                                        <h3 style={{ color: activeProject.color, marginBottom: 'var(--space-2)', fontSize: 'var(--text-xl)' }}>{t('projects.modal.about')}</h3>
                                         <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
                                             {activeProject.fullDescription}
                                         </p>
@@ -708,14 +711,14 @@ const Projects = () => {
                                     )}
 
                                     <div>
-                                        <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px', fontSize: 'var(--text-lg)' }}>Status</h3>
+                                        <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px', fontSize: 'var(--text-lg)' }}>{t('projects.modal.status')}</h3>
                                         <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '8px', borderLeft: `3px solid ${activeProject.color}` }}>
                                             {activeProject.status}
                                         </div>
                                     </div>
 
                                     <div>
-                                        <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px', fontSize: 'var(--text-lg)' }}>Technologies Used</h3>
+                                        <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px', marginBottom: '16px', fontSize: 'var(--text-lg)' }}>{t('projects.modal.tech')}</h3>
 
                                         {/* Technology Carousel */}
                                         <div style={{
@@ -779,7 +782,7 @@ const Projects = () => {
                                                 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', width: '100%', background: activeProject.color, borderColor: activeProject.color, color: '#000' }}
                                             >
                                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                                View Live App
+                                                {t('projects.modal.viewLive')}
                                             </a>
                                         )}
                                         {activeProject.githubLink && (
@@ -793,7 +796,7 @@ const Projects = () => {
                                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                                                 </svg>
-                                                View Source Code
+                                                {t('projects.modal.sourceCode')}
                                             </a>
                                         )}
                                     </div>

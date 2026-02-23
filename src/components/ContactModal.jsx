@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const ContactModal = ({ isOpen, onClose }) => {
+    const { t } = useLanguage();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -145,10 +147,10 @@ const ContactModal = ({ isOpen, onClose }) => {
                         </button>
 
                         <h3 style={{ marginBottom: 'var(--space-2)', fontSize: 'var(--text-2xl)' }}>
-                            Starting a new project?
+                            {t('contact.title')}
                         </h3>
                         <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-6)', fontSize: 'var(--text-sm)' }}>
-                            Fill out the form below and I'll get back to you as soon as possible.
+                            {t('contact.subtitle')}
                         </p>
 
                         {status === 'success' ? (
@@ -165,17 +167,17 @@ const ContactModal = ({ isOpen, onClose }) => {
                                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <polyline points="22 4 12 14.01 9 11.01" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
-                                <h4 style={{ color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>Message sent successfully!</h4>
-                                <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>I will review it and reply to your email shortly.</p>
+                                <h4 style={{ color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{t('contact.success.title')}</h4>
+                                <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-6)' }}>{t('contact.success.subtitle')}</p>
                                 <button className="btn btn-primary" onClick={onClose} style={{ width: '100%' }}>
-                                    Close
+                                    {t('contact.success.close')}
                                 </button>
                             </motion.div>
                         ) : (
                             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                                 <div>
                                     <label htmlFor="name" style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>
-                                        Name
+                                        {t('contact.form.name')}
                                     </label>
                                     <input
                                         type="text"
@@ -183,7 +185,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                                         name="name"
                                         required
                                         className="form-input"
-                                        placeholder="John Doe"
+                                        placeholder={t('contact.form.namePlaceholder')}
                                         value={formData.name}
                                         onChange={handleChange}
                                         disabled={status === 'loading'}
@@ -192,7 +194,7 @@ const ContactModal = ({ isOpen, onClose }) => {
 
                                 <div>
                                     <label htmlFor="email" style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>
-                                        Email
+                                        {t('contact.form.email')}
                                     </label>
                                     <input
                                         type="email"
@@ -200,7 +202,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                                         name="email"
                                         required
                                         className="form-input"
-                                        placeholder="john@example.com"
+                                        placeholder={t('contact.form.emailPlaceholder')}
                                         value={formData.email}
                                         onChange={handleChange}
                                         disabled={status === 'loading'}
@@ -209,14 +211,14 @@ const ContactModal = ({ isOpen, onClose }) => {
 
                                 <div>
                                     <label htmlFor="message" style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>
-                                        Project Details
+                                        {t('contact.form.message')}
                                     </label>
                                     <textarea
                                         id="message"
                                         name="message"
                                         required
                                         className="form-input"
-                                        placeholder="Tell me about your project, timeline, and goals..."
+                                        placeholder={t('contact.form.messagePlaceholder')}
                                         rows={4}
                                         style={{ resize: 'vertical' }}
                                         value={formData.message}
@@ -227,7 +229,7 @@ const ContactModal = ({ isOpen, onClose }) => {
 
                                 {status === 'error' && (
                                     <div style={{ color: '#ef4444', fontSize: 'var(--text-sm)', padding: 'var(--space-2)', background: 'rgba(239, 68, 68, 0.1)', borderRadius: 'var(--border-radius)', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
-                                        There was a problem sending your message. Please try again later.
+                                        {t('contact.form.error')}
                                     </div>
                                 )}
 
@@ -237,7 +239,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                                     style={{ marginTop: 'var(--space-2)', width: '100%', justifyContent: 'center' }}
                                     disabled={status === 'loading'}
                                 >
-                                    {status === 'loading' ? 'Sending...' : 'Send Message'}
+                                    {status === 'loading' ? t('contact.form.sending') : t('contact.form.send')}
                                 </button>
                             </form>
                         )}

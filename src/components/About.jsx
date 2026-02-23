@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
-
+import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
+    const { t } = useLanguage();
+
     return (
         <section id="about" className="section" style={{ position: 'relative' }}>
             <div className="container">
@@ -19,7 +21,7 @@ const About = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5 }}
                         >
-                            About <span className="gradient-text">Me</span>
+                            {t('nav.about')}
                         </motion.h2>
                     </div>
 
@@ -82,15 +84,11 @@ const About = () => {
                                 fontSize: 'var(--text-lg)',
                                 color: 'var(--color-text-secondary)',
                             }}>
-                                I'm a passionate software developer with a keen eye for design and
-                                a love for building elegant solutions to complex problems.
+                                {t('about.p1')}
                             </p>
 
                             <p style={{ marginBottom: 'var(--space-5)', color: 'var(--color-text-secondary)' }}>
-                                With several years of experience in full-stack development, I
-                                specialize in creating responsive web applications that prioritize
-                                user experience and performance. I'm always exploring new technologies
-                                and best practices to stay at the forefront of web development.
+                                {t('about.p2')}
                             </p>
 
                         </motion.div>

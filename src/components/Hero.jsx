@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const Hero = () => {
+  const { t } = useLanguage();
+
   // Geometric shapes data - subtle floating blobs
   const shapes = [
     { type: 'circle', size: 400, top: '-10%', left: '-10%', delay: 0 },
@@ -75,9 +78,10 @@ const Hero = () => {
                 fontWeight: 600,
                 letterSpacing: '0.05em',
                 margin: 0,
+                textTransform: 'uppercase'
               }}
             >
-              FULL STACK DEVELOPER
+              {t('hero.role')}
             </p>
           </motion.div>
 
@@ -93,9 +97,9 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Building digital products that{' '}
+            {t('hero.title.1')}
             <span className="gradient-text">
-              matter.
+              {t('hero.title.2')}
             </span>
           </motion.h1>
 
@@ -113,8 +117,7 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            I craft accessible, pixel-perfect, and performant web experiences
-            using modern technologies and design principles.
+            {t('hero.description')}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -131,10 +134,15 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <a href="#projects" className="btn btn-primary">
-              View Projects
+              {t('hero.cta.projects')}
             </a>
-            <a href="#contact" className="btn btn-outline">
-              Contact Me
+            <a href="#contact" className="btn btn-outline" onClick={(e) => {
+              e.preventDefault();
+              // We'll need to trigger the footer modal here ideally, but since it's in footer,
+              // we'll smooth scroll to footer for now.
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}>
+              {t('hero.cta.contact')}
             </a>
           </motion.div>
         </motion.div>

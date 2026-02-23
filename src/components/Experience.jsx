@@ -1,17 +1,20 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const Experience = () => {
+    const { t } = useLanguage();
+
     const experiences = [
         {
             id: 1,
-            company: 'El Mayorista - Remoto (Colombia)',
-            role: 'Desarrollador Full Stack — Módulo de Inventario',
-            period: 'Octubre 2025 – Diciembre 2025',
+            company: t('exp.1.company'),
+            role: t('exp.1.title'),
+            period: t('exp.1.date'),
             achievements: [
-                'Colaboré en el desarrollo Full Stack, asumiendo un rol clave en el diseño de la interfaz (UI) y la experiencia de usuario (UX) de la aplicación.',
-                'Contribuí al desarrollo del módulo de inventario bajo arquitectura Modulith + DDD, con dominio completamente aislado y aplicación del principio de inversión de dependencias.',
-                'Ayudé a implementar búsqueda inteligente con pg_vector, paginación avanzada y optimización de la carga inicial de más de 4.600 productos a ~3 segundos mediante Spring Batch.',
-                'Colaboré en la implementación de eventos de dominio, WebSockets para sincronización en tiempo real y pipelines de carga masiva de datos e imágenes en AWS.'
+                t('exp.1.desc.1'),
+                t('exp.1.desc.2'),
+                t('exp.1.desc.3'),
+                t('exp.1.desc.4')
             ],
             technologies: ['React', 'Spring Boot', 'PostgreSQL', 'pg_vector', 'AWS', 'WebSockets'],
         }
@@ -34,7 +37,7 @@ const Experience = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5 }}
                         >
-                            Work <span className="gradient-text">Experience</span>
+                            {t('exp.title.1')} <span className="gradient-text">{t('exp.title.2')}</span>
                         </motion.h2>
                     </div>
 

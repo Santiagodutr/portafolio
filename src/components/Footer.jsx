@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ContactModal from './ContactModal';
+import { useLanguage } from '../context/LanguageContext';
 
 const Footer = () => {
+    const { t } = useLanguage();
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
     const socialLinks = [
@@ -77,14 +79,15 @@ const Footer = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <h2 style={{ marginBottom: 'var(--space-4)' }}>
-                        Let's Work <span className="gradient-text">Together</span>
+                        {t('footer.ready')} <span className="gradient-text">Together</span>
+                        {/* Note: In a fully refined version 'Let's Work Together' can be split, using the existing footer.ready translation for now */}
                     </h2>
                     <p style={{
                         fontSize: 'var(--text-lg)',
                         marginBottom: 'var(--space-6)',
                         margin: '0 auto var(--space-6)',
                     }}>
-                        I'm always interested in hearing about new projects and opportunities.
+                        {t('footer.discuss')}
                     </p>
                     <motion.button
                         onClick={() => setIsContactModalOpen(true)}
@@ -93,7 +96,7 @@ const Footer = () => {
                         whileTap={{ scale: 0.95 }}
                         style={{ background: 'var(--color-text-primary)', color: 'var(--color-bg-primary)', border: 'none' }}
                     >
-                        Get In Touch
+                        {t('footer.getInTouch')}
                     </motion.button>
                 </motion.div>
 
@@ -167,10 +170,10 @@ const Footer = () => {
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
                     <p style={{ margin: 0 }}>
-                        Desarrollado por <a href="https://portafolio-santiago-duarte.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-text-primary)', textDecoration: 'none', fontWeight: '500' }}>Santiago Duarte</a>
+                        {t('footer.developedBy')} <a href="https://portafolio-santiago-duarte.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-text-primary)', textDecoration: 'none', fontWeight: '500' }}>Santiago Duarte</a>
                     </p>
                     <p style={{ marginTop: 'var(--space-2)', marginBottom: 0 }}>
-                        © 2026 Todos los derechos reservados.
+                        {t('footer.copyright')}
                     </p>
                 </motion.div>
             </div>

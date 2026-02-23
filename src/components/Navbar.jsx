@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
+import { useLanguage } from '../context/LanguageContext';
 
 const Navbar = () => {
     const { theme, setTheme } = useTheme();
+    const { language, toggleLanguage, t } = useLanguage();
 
     const navLinks = [
-        { name: 'Proyectos', href: '#projects' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Educación', href: '#experience' },
-        { name: 'Sobre mí', href: '#about' }
+        { name: t('nav.projects'), href: '#projects' },
+        { name: t('nav.skills'), href: '#skills' },
+        { name: t('nav.experience'), href: '#experience' },
+        { name: t('nav.about'), href: '#about' }
     ];
 
     const cycleTheme = () => {
@@ -136,6 +138,43 @@ const Navbar = () => {
                     >
                         {getThemeIcon()}
                     </motion.div>
+                </button>
+
+                {/* Vertical Divider */}
+                <div style={{
+                    width: '1px',
+                    height: '16px',
+                    background: 'var(--color-border)',
+                }} />
+
+                {/* Language Toggle Button */}
+                <button
+                    onClick={toggleLanguage}
+                    title={`Current language: ${language.toUpperCase()}. Click to switch.`}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--color-text-secondary)',
+                        cursor: 'pointer',
+                        padding: 'var(--space-1)',
+                        fontSize: 'var(--text-sm)',
+                        fontWeight: '600',
+                        letterSpacing: '0.05em',
+                        transition: 'all var(--transition-fast)'
+                    }}
+                    onMouseEnter={e => {
+                        e.currentTarget.style.color = 'var(--color-text-primary)';
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={e => {
+                        e.currentTarget.style.color = 'var(--color-text-secondary)';
+                        e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                >
+                    {language.toUpperCase()}
                 </button>
             </nav>
         </motion.div>
