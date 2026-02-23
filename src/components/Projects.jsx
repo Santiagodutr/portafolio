@@ -538,7 +538,8 @@ const Projects = () => {
                                     flexDirection: 'column',
                                     padding: 'var(--space-6)',
                                     background: 'rgba(0,0,0,0.2)',
-                                    overflow: 'hidden'
+                                    overflow: 'hidden',
+                                    minHeight: window.innerWidth < 768 ? '300px' : 'auto' // Prevent vertical squashing on mobile
                                 }}>
                                     {/* Dual-Theme Gallery Toggle */}
                                     {activeProject.darkImages && (
@@ -599,7 +600,8 @@ const Projects = () => {
                                                         justifyContent: 'center',
                                                         position: 'relative',
                                                         boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.1)',
-                                                        cursor: 'zoom-in'
+                                                        cursor: 'zoom-in',
+                                                        minHeight: '200px' // Ensure main image area doesn't collapse
                                                     }}
                                                     title="Click to view fullscreen"
                                                 >
