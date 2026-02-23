@@ -311,7 +311,7 @@ const Projects = () => {
                                     border: '1px solid var(--color-card-border)',
                                     padding: 'var(--space-5)',
                                     borderRadius: 'var(--border-radius-lg)',
-                                    overflow: 'hidden',
+                                    overflow: 'visible', // Avoid cutting off hover effects or interactions
                                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)' // Subtle shadow for light mode grounding
                                 }}
                             >
@@ -525,22 +525,9 @@ const Projects = () => {
                             </div>
 
                             {/* Modal Body: Two Columns */}
-                            <div style={{
-                                display: 'flex',
-                                flex: 1,
-                                overflow: 'hidden',
-                                flexDirection: window.innerWidth < 768 ? 'column' : 'row' // simple responsive fallback
-                            }}>
+                            <div className="modal-body">
                                 {/* Left Column: Gallery */}
-                                <div style={{
-                                    flex: '1.5',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    padding: 'var(--space-6)',
-                                    background: 'rgba(0,0,0,0.2)',
-                                    overflow: 'hidden',
-                                    minHeight: window.innerWidth < 768 ? '300px' : 'auto' // Prevent vertical squashing on mobile
-                                }}>
+                                <div className="modal-left">
                                     {/* Dual-Theme Gallery Toggle */}
                                     {activeProject.darkImages && (
                                         <div style={{
@@ -642,6 +629,7 @@ const Projects = () => {
                                                 {/* Thumbnail Strip */}
                                                 <div style={{
                                                     height: '80px',
+                                                    minHeight: '80px', // Prevent flex shrinking to 0
                                                     display: 'flex',
                                                     gap: '12px',
                                                     overflowX: 'auto',
@@ -678,15 +666,7 @@ const Projects = () => {
                                 </div>
 
                                 {/* Right Column: Details */}
-                                <div style={{
-                                    flex: '1',
-                                    padding: 'var(--space-6)',
-                                    overflowY: 'auto',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 'var(--space-5)',
-                                    scrollbarWidth: 'thin'
-                                }}>
+                                <div className="modal-right">
                                     <div>
                                         <h3 style={{ color: activeProject.color, marginBottom: 'var(--space-2)', fontSize: 'var(--text-xl)' }}>{t('projects.modal.about')}</h3>
                                         <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
