@@ -1,64 +1,182 @@
-import { motion } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-
-// Geometric shapes data - subtle floating blobs
-const shapes = [
-  { type: 'circle', size: 400, top: '-10%', left: '-10%', delay: 0 },
-  { type: 'square', size: 300, top: '40%', right: '-5%', delay: 0.2 },
-  { type: 'circle', size: 200, bottom: '10%', left: '10%', delay: 0.4 },
-];
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 const Hero = () => {
   const { t } = useLanguage();
+  const canvasRef = useRef(null);
+  const heroRef = useRef(null);
+  const maskRef = useRef(null);
+  const contentRef = useRef(null);
+
+  // Hay 194 imágenes en la carpeta heroanimation (scene00001.jpg hasta scene00194.jpg)
+  const frameCount = 194;
+  const currentFrame = index => `/heroanimation/scene${(index + 1).toString().padStart(5, '0')}.jpg`;
+
+  useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+
+    // Set canvas internal resolution to handle standard landscape video
+    canvas.width = 1920;
+    canvas.height = 1080;
+
+    const images = [];
+    const seq = { frame: 0 };
+
+    // Preload images
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image();
+      img.src = currentFrame(i);
+      images.push(img);
+    }
+
+    images[0].onload = render;
+
+    function render() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      const img = images[Math.round(seq.frame)];
+      if (img && img.complete) {
+          context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // GSAP ScrollTrigger Sequence Timeline
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroRef.current,
+        pin: true,
+        scrub: 1, // Sutil suavizado
+        start: "top top",
+        end: "+=400%" // Scroll extendido equivalente a 4 pantallas
+      }
+    });
+
+    // Estado inicial de la máscara: invisible y a escala GIGANTE
+    gsap.set(maskRef.current, { opacity: 0 });
+    gsap.set(".mask-text", { scale: 50, transformOrigin: "50% 50%" });
+
+    // 1. Scrub del Video (Progreso: 0.00 a 1.00)
+    // El video corre a pantalla completa a lo largo de todo el scroll
+    tl.to(seq, {
+      frame: frameCount - 1,
+      snap: "frame",
+      ease: "none",
+      duration: 1,
+      onUpdate: render
+    }, 0);
+
+    // 2. Al 70% de la animación, encendemos la máscara (como la escala es 50, no tapará casi nada aún)
+    tl.to(maskRef.current, { opacity: 1, duration: 0.01 }, 0.70);
+
+    // 3. Zoom-In Épico: La palabra viene desde afuera hacia tamaño normal (Progreso: 0.70 a 0.85)
+    tl.to(".mask-text", {
+      scale: 1,
+      duration: 0.15,
+      ease: "power2.out"
+    }, 0.70);
+
+    // 4. Se cierra a cero desapareciendo en la oscuridad (Progreso: 0.85 a 0.90)
+    tl.to(".mask-text", {
+      scale: 0,
+      opacity: 0,
+      duration: 0.05,
+      ease: "power2.in"
+    }, 0.85);
+
+    // 5. Emerge el contenido normal del Hero (Progreso: 0.90 a 1.0)
+    tl.fromTo(contentRef.current,
+      { opacity: 0, y: 50, scale: 0.95 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.10, ease: "power3.out" },
+      0.90
+    );
+
+  }, { scope: heroRef });
 
   return (
-    <section className="section" style={{
-      minHeight: '100vh',
+    <section ref={heroRef} className="section" style={{
+      height: '100vh',
       display: 'flex',
       alignItems: 'center',
       position: 'relative',
       overflow: 'hidden',
-      paddingTop: 'var(--space-8)'
+      padding: 0,
+      margin: 0
     }}>
-      {/* Floating Geometric Shapes - Now soft blobs */}
-      {shapes.map((shape, index) => (
-        <motion.div
-          key={index}
-          className={`geometric-shape shape-${shape.type}`}
-          style={{
-            width: shape.size,
-            height: shape.size,
-            top: shape.top,
-            bottom: shape.bottom,
-            left: shape.left,
-            right: shape.right,
-          }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{
-            opacity: 0.4,
-            scale: 1,
-            y: [0, -30, 0],
-          }}
-          transition={{
-            opacity: { duration: 1.5, delay: shape.delay },
-            scale: { duration: 1.5, delay: shape.delay },
-            y: {
-              duration: 8 + index,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }
-          }}
-        />
-      ))}
+      {/* 1. LAYER: Video a Pantalla Completa (Bottom Layer) */}
+      <canvas 
+        ref={canvasRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          objectFit: 'cover',
+          zIndex: 0,
+        }}
+      />
 
-      <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+      {/* 2. LAYER: Máscara SVG (Middle Layer) - Oculta los bordes pero expone la palabra SANTIAGO */}
+      <div 
+        ref={maskRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      >
+        <svg width="100%" height="100%">
+          <defs>
+            <mask id="textMask">
+              {/* Entorno visible (color sólido normal) -> pintado de blanco en la máscara */}
+              <rect width="100%" height="100%" fill="white" />
+              {/* Texto "hueco" (deja ver el video) -> pintado de negro en la máscara */}
+              <text 
+                className="mask-text"
+                x="50%" 
+                y="50%" 
+                textAnchor="middle" 
+                dominantBaseline="middle" 
+                fill="black" 
+                style={{ 
+                  fontSize: 'clamp(5rem, 15vw, 15rem)', 
+                  fontWeight: 900, 
+                  fontFamily: 'Inter, system-ui, sans-serif', 
+                  letterSpacing: '0.02em',
+                  textTransform: 'uppercase'
+                }}
+              >
+                SANTIAGO
+              </text>
+            </mask>
+          </defs>
+          <rect width="100%" height="100%" fill="var(--color-bg-primary)" mask="url(#textMask)" />
+        </svg>
+      </div>
+
+      {/* 3. LAYER: Contenido Normal del Hero (Top Layer) */}
+      <div 
+        ref={contentRef}
+        className="container" 
+        style={{ 
+          position: 'relative', 
+          zIndex: 2, 
+          textAlign: 'center',
+        }}
+      >
+        <div>
           {/* Eyebrow text */}
-          <motion.div
+          <div
             style={{
               display: 'inline-block',
               padding: '0.5rem 1rem',
@@ -66,10 +184,8 @@ const Hero = () => {
               border: '1px solid rgba(59, 130, 246, 0.2)',
               borderRadius: '999px',
               marginBottom: 'var(--space-4)',
+              backdropFilter: 'blur(10px)',
             }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
           >
             <p
               style={{
@@ -83,45 +199,42 @@ const Hero = () => {
             >
               {t('hero.role')}
             </p>
-          </motion.div>
+          </div>
 
           {/* Main Heading */}
-          <motion.h1
+          <h1
             style={{
               marginBottom: 'var(--space-4)',
               fontSize: 'var(--text-6xl)',
               lineHeight: 1.1,
               letterSpacing: '-0.02em',
+              textShadow: '0 4px 20px rgba(0,0,0,0.8)',
+              color: 'var(--color-text-primary)'
             }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
           >
             {t('hero.title.1')}
-            <span className="gradient-text">
+            <span className="gradient-text" style={{ textShadow: 'none' }}>
               {t('hero.title.2')}
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Subtitle */}
-          <motion.p
+          <p
             style={{
               fontSize: 'var(--text-xl)',
-              color: 'var(--color-text-secondary)',
+              color: 'var(--color-text-primary)',
               marginBottom: 'var(--space-6)',
               maxWidth: '700px',
               marginLeft: 'auto',
               marginRight: 'auto',
+              textShadow: '0 2px 10px rgba(0,0,0,0.8)',
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
           >
             {t('hero.description')}
-          </motion.p>
+          </p>
 
           {/* CTA Buttons */}
-          <motion.div
+          <div
             style={{
               display: 'flex',
               gap: 'var(--space-3)',
@@ -129,23 +242,18 @@ const Hero = () => {
               flexWrap: 'wrap',
               marginTop: 'var(--space-6)',
             }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <a href="#projects" className="btn btn-primary">
+            <a href="#projects" className="btn btn-primary" style={{ boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)' }}>
               {t('hero.cta.projects')}
             </a>
-            <a href="#contact" className="btn btn-outline" onClick={(e) => {
+            <a href="#contact" className="btn btn-outline" style={{ background: 'rgba(0,0,0,0.4)', borderColor: 'rgba(255,255,255,0.2)' }} onClick={(e) => {
               e.preventDefault();
-              // We'll need to trigger the footer modal here ideally, but since it's in footer,
-              // we'll smooth scroll to footer for now.
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
             }}>
               {t('hero.cta.contact')}
             </a>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

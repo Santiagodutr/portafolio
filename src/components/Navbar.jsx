@@ -7,22 +7,31 @@ const Navbar = () => {
     const { theme, setTheme } = useTheme();
     const { language, toggleLanguage, t } = useLanguage();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [hidden, setHidden] = useState(false);
+    const [hidden, setHidden] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const heroAnimationThreshold = window.innerHeight * 3.5; // El punto donde termina la animación del Hero
+
+            let isPastAbout = false;
             const aboutSection = document.getElementById('about');
             if (aboutSection) {
                 const aboutBottom = aboutSection.offsetTop + aboutSection.offsetHeight;
-                if (window.scrollY > aboutBottom - 100) {
-                    setHidden(true);
-                } else {
-                    setHidden(false);
+                if (scrollY > aboutBottom - 100) {
+                    isPastAbout = true;
                 }
+            }
+
+            // Ocultar si estamos dentro de la animación cinemática del Hero O si ya pasamos la sección About
+            if (scrollY < heroAnimationThreshold || isPastAbout) {
+                setHidden(true);
+            } else {
+                setHidden(false);
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         // Initial check
         handleScroll();
 
