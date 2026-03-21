@@ -1,8 +1,15 @@
 import { useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+
+const shapes = [
+  { type: 'circle', size: 500, top: '-15%', right: '-10%', delay: 0 },
+  { type: 'square', size: 400, top: '50%', left: '-5%', delay: 0.2 },
+  { type: 'circle', size: 300, bottom: '-10%', right: '20%', delay: 0.4 },
+];
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -10,6 +17,7 @@ const Hero = () => {
   const heroRef = useRef(null);
   const maskRef = useRef(null);
   const contentRef = useRef(null);
+  const particlesRef = useRef(null);
 
   // Hay 194 imágenes en la carpeta heroanimation (scene00001.jpg hasta scene00194.jpg)
   const frameCount = 194;
@@ -89,10 +97,16 @@ const Hero = () => {
       ease: "power2.in"
     }, 0.85);
 
-    // 5. Emerge el contenido normal del Hero (Progreso: 0.90 a 1.0)
+    // 5. Emerge el contenido normal del Hero y las partículas ambientales de fondo (Progreso: 0.90 a 1.0)
     tl.fromTo(contentRef.current,
       { opacity: 0, y: 50, scale: 0.95 },
       { opacity: 1, y: 0, scale: 1, duration: 0.10, ease: "power3.out" },
+      0.90
+    );
+
+    tl.fromTo(particlesRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.10, ease: "power2.inOut" },
       0.90
     );
 
@@ -162,6 +176,47 @@ const Hero = () => {
           </defs>
           <rect width="100%" height="100%" fill="var(--color-bg-primary)" mask="url(#textMask)" />
         </svg>
+      </div>
+
+      {/* LAYER 2.5: Partículas/Burbujas geométricas (Aparecen sólo al final, controlados por GSAP) */}
+      <div 
+        ref={particlesRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1, // Debajo del texto pero arriba de la máscara base
+          pointerEvents: 'none',
+          opacity: 0 // Inician invisibles, el GSAP se encarga
+        }}
+      >
+        {shapes.map((shape, index) => (
+          <motion.div
+            key={index}
+            className={`geometric-shape shape-${shape.type}`}
+            style={{
+              width: shape.size,
+              height: shape.size,
+              top: shape.top,
+              bottom: shape.bottom,
+              left: shape.left,
+              right: shape.right,
+              opacity: 0.4 // Opacidad intrínseca sutil base
+            }}
+            animate={{
+              y: [0, -30, 0],
+            }}
+            transition={{
+              y: {
+                duration: 8 + index,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
+            }}
+          />
+        ))}
       </div>
 
       {/* 3. LAYER: Contenido Normal del Hero (Top Layer) */}
