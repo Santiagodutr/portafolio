@@ -1,5 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+const shapes = [
+    { type: 'circle', size: 500, top: '-15%', right: '-10%', delay: 0 },
+    { type: 'square', size: 400, top: '50%', left: '-5%', delay: 0.2 },
+    { type: 'circle', size: 300, bottom: '-10%', right: '20%', delay: 0.4 },
+];
+
 import {
     SiReact,
     SiTypescript,
@@ -16,6 +26,8 @@ import {
     SiZod,
     SiAstro,
     SiAdonisjs,
+    SiPython,
+    SiJupyter,
 } from 'react-icons/si';
 
 import { useLanguage } from '../context/LanguageContext';
@@ -189,6 +201,80 @@ const Projects = () => {
                 '/club-el-meta/reportesLight.png'
             ],
             githubLink: 'https://github.com/Santiagodutr/Club-Management-System'
+        },
+        {
+            id: 4,
+            title: t('projects.4.title'),
+            description: t('projects.4.desc'),
+            fullDescription: t('projects.4.fullDesc'),
+            status: t('projects.4.status'),
+            tags: [
+                { name: 'Python', icon: SiPython, color: '#3776AB' },
+                { name: 'Jupyter', icon: SiJupyter, color: '#F37626' }
+            ],
+            color: '#9c27b0', // Purple
+            coverImage: '/Algoritmo genetico/INICIO1DARK.png',
+            darkImages: [
+                '/Algoritmo genetico/INICIODARK.png',
+                '/Algoritmo genetico/INICIO1DARK.png',
+                '/Algoritmo genetico/INICIO2DARK.png'
+            ],
+            lightImages: [
+                '/Algoritmo genetico/INICIOLIGHT.png',
+                '/Algoritmo genetico/INICIO1LIGHT.png',
+                '/Algoritmo genetico/INICIO2LIGHT.png'
+            ],
+            githubLink: 'https://github.com/Santiagodutr/Sistema-de-Optimizacion-de-Rutas-de-Transporte-Estudiantil-mediante-Algoritmos-Geneticos'
+        },
+        {
+            id: 5,
+            title: t('projects.5.title'),
+            description: t('projects.5.desc'),
+            fullDescription: t('projects.5.fullDesc'),
+            status: t('projects.5.status'),
+            tags: [
+                { name: 'React Native', icon: SiReact, color: '#61DAFB' },
+                { name: 'Next.js', icon: SiNextdotjs, color: '#ffffff' },
+                { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
+                { name: 'Supabase', icon: SiSupabase, color: '#3ECF8E' },
+                { name: 'PostgreSQL', icon: SiPostgresql, color: '#336791' },
+            ],
+            color: '#3b82f6', // Blue
+            coverImage: '/finanzandu/inicio.png',
+            mobileImages: [
+                '/finanzandu/movilInicio.png',
+                '/finanzandu/movil2.png',
+                '/finanzandu/movil3.png',
+                '/finanzandu/movil4.png',
+                '/finanzandu/movil5.png',
+                '/finanzandu/movil6.png',
+                '/finanzandu/movil7.png',
+                '/finanzandu/movil8.png',
+                '/finanzandu/movil9.png',
+                '/finanzandu/movil10.png',
+                '/finanzandu/movil11.png',
+                '/finanzandu/movil12.png',
+                '/finanzandu/movil13.png',
+                '/finanzandu/movil14.png'
+            ],
+            webImages: [
+                '/finanzandu/login.png',
+                '/finanzandu/inicio.png',
+                '/finanzandu/inicio2.png',
+                '/finanzandu/inicio3.png',
+                '/finanzandu/inicio4.png',
+                '/finanzandu/inicio5.png',
+                '/finanzandu/inicio6.png',
+                '/finanzandu/inicio7.png',
+                '/finanzandu/inicio8.png',
+                '/finanzandu/inicio9.png',
+                '/finanzandu/inicio10.png',
+                '/finanzandu/inicio11.png',
+                '/finanzandu/inicio12.png',
+                '/finanzandu/inicio13.png',
+                '/finanzandu/inicio14.png'
+            ],
+            githubLink: 'https://github.com/Santiagodutr/finanzandu-app'
         }
     ], [t]);
 
@@ -196,7 +282,8 @@ const Projects = () => {
         setActiveIndex(index);
         setIsModalOpen(true);
         setActiveImageIndex(0);
-        setGalleryTheme('dark'); // reset theme on modal open
+        const proj = projects[index] || {};
+        setGalleryTheme(proj.mobileImages ? 'mobile' : (proj.darkImages ? 'dark' : 'single'));
     };
 
     const closeModal = () => {
@@ -229,13 +316,15 @@ const Projects = () => {
             } else if (e.key === 'ArrowRight') {
                 setActiveImageIndex((prev) => {
                     const proj = projects[activeIndex];
-                    const imgs = proj.darkImages ? (galleryTheme === 'dark' ? proj.darkImages : proj.lightImages) : proj.images;
+                    if (!proj) return prev;
+                    const imgs = proj.mobileImages ? (galleryTheme === 'mobile' ? proj.mobileImages : proj.webImages) : (proj.darkImages ? (galleryTheme === 'dark' ? proj.darkImages : proj.lightImages) : proj.images);
                     return imgs ? (prev + 1) % imgs.length : prev;
                 });
             } else if (e.key === 'ArrowLeft') {
                 setActiveImageIndex((prev) => {
                     const proj = projects[activeIndex];
-                    const imgs = proj.darkImages ? (galleryTheme === 'dark' ? proj.darkImages : proj.lightImages) : proj.images;
+                    if (!proj) return prev;
+                    const imgs = proj.mobileImages ? (galleryTheme === 'mobile' ? proj.mobileImages : proj.webImages) : (proj.darkImages ? (galleryTheme === 'dark' ? proj.darkImages : proj.lightImages) : proj.images);
                     return imgs ? (prev - 1 + imgs.length) % imgs.length : prev;
                 });
             }
@@ -247,16 +336,75 @@ const Projects = () => {
         };
     }, [isModalOpen, isFullscreen, activeIndex, projects, galleryTheme]);
 
+    const sectionRef = useRef(null);
+    const scrollRef = useRef(null);
+
+    useGSAP(() => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const container = scrollRef.current;
+        if (!container) return;
+
+        const totalScroll = container.scrollWidth - window.innerWidth;
+
+        gsap.to(container, {
+            x: () => -totalScroll,
+            ease: "none",
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + totalScroll,
+                invalidateOnRefresh: true
+            }
+        });
+    }, { dependencies: [projects], scope: sectionRef });
+
     const activeProject = projects[activeIndex];
-    const currentImages = activeProject ? (activeProject.darkImages ? (galleryTheme === 'dark' ? activeProject.darkImages : activeProject.lightImages) : activeProject.images) : [];
+    const currentImages = activeProject ? (activeProject.mobileImages ? (galleryTheme === 'mobile' ? activeProject.mobileImages : activeProject.webImages) : (activeProject.darkImages ? (galleryTheme === 'dark' ? activeProject.darkImages : activeProject.lightImages) : activeProject.images)) : [];
 
     return (
-        <section id="projects" className="section" style={{
+        <section id="projects" ref={sectionRef} className="section" style={{
             background: 'var(--color-bg-secondary)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: '0'
         }}>
-            <div className="container">
+            {/* Floating Geometric Shapes */}
+            {shapes.map((shape, index) => (
+                <motion.div
+                    key={index}
+                    className={`geometric-shape shape-${shape.type}`}
+                    style={{
+                        width: shape.size,
+                        height: shape.size,
+                        top: shape.top,
+                        bottom: shape.bottom,
+                        left: shape.left,
+                        right: shape.right,
+                    }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                        opacity: 0.4,
+                        scale: 1,
+                        y: [0, -30, 0],
+                    }}
+                    transition={{
+                        opacity: { duration: 1.5, delay: shape.delay },
+                        scale: { duration: 1.5, delay: shape.delay },
+                        y: {
+                            duration: 8 + index,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    }}
+                />
+            ))}
+            <div className="container" style={{ width: '100%', margin: '0 auto', position: 'relative', zIndex: 1 }}>
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -264,7 +412,7 @@ const Projects = () => {
                     transition={{ duration: 0.6 }}
                 >
                     {/* Section Header */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 'var(--space-8)' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 'var(--space-4)', marginTop: '5vh' }}>
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -285,174 +433,177 @@ const Projects = () => {
                         </motion.p>
                     </div>
 
-                    {/* Grid Container */}
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                        gap: 'var(--space-6)',
-                        width: '100%',
-                        maxWidth: '1200px',
-                        margin: '0 auto'
-                    }}>
-                        {projects.map((project, index) => (
-                            <motion.div
-                                key={project.title}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: index * 0.1 }}
-                                className="card"
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 'var(--space-4)',
-                                    background: 'var(--color-card-bg)',
-                                    backdropFilter: 'blur(12px)',
-                                    WebkitBackdropFilter: 'blur(12px)',
-                                    border: '1px solid var(--color-card-border)',
-                                    padding: 'var(--space-5)',
-                                    borderRadius: 'var(--border-radius-lg)',
-                                    overflow: 'visible', // Avoid cutting off hover effects or interactions
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)' // Subtle shadow for light mode grounding
-                                }}
-                            >
-                                {/* Image Placeholder or Cover Image */}
-                                <div style={{
-                                    aspectRatio: '16/9',
-                                    background: `linear-gradient(135deg, ${project.color}20, ${project.color}05)`,
-                                    borderRadius: 'var(--border-radius)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    border: `1px solid ${project.color}30`,
-                                    overflow: 'hidden',
-                                    position: 'relative'
-                                }}>
-                                    {project.coverImage ? (
-                                        <img
-                                            src={project.coverImage}
-                                            alt={project.title}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                                        />
-                                    ) : (
-                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={project.color}>
-                                            <rect x="2" y="3" width="20" height="14" rx="2" strokeWidth="1.5" />
-                                            <path d="M8 21h8M12 17v4" strokeWidth="1.5" strokeLinecap="round" />
-                                        </svg>
-                                    )}
-                                </div>
-
-                                {/* Content */}
-                                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                    <h3 style={{
-                                        fontSize: 'var(--text-2xl)',
-                                        marginBottom: 'var(--space-1)',
-                                        color: 'var(--color-text-primary)'
-                                    }}>
-                                        {project.title}
-                                    </h3>
-
-                                    {/* Award Badge on Card */}
-                                    {project.award && (
+                    {/* Horizontal Scroll Container Wrapper */}
+                    <div style={{ overflow: 'hidden', width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: 'var(--space-4)' }}>
+                        <div
+                            ref={scrollRef}
+                            style={{
+                                display: 'flex',
+                                width: `${projects.length * 100}vw`,
+                                flexWrap: 'nowrap'
+                            }}
+                        >
+                            {projects.map((project, index) => (
+                                <div key={project.title} style={{ width: '100vw', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 5vw', boxSizing: 'border-box' }}>
+                                    <div
+                                        className="card"
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 'var(--space-4)',
+                                            background: 'rgba(128, 128, 128, 0.08)',
+                                            backdropFilter: 'blur(24px)',
+                                            WebkitBackdropFilter: 'blur(24px)',
+                                            border: '1px solid rgba(128, 128, 128, 0.2)',
+                                            padding: 'var(--space-5)',
+                                            borderRadius: '24px',
+                                            overflow: 'visible',
+                                            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.1)',
+                                            width: '90vw',
+                                            maxWidth: '800px',
+                                            margin: '0 auto'
+                                        }}
+                                    >
+                                        {/* Image Placeholder or Cover Image */}
                                         <div style={{
-                                            display: 'inline-flex',
+                                            width: '100%',
+                                            aspectRatio: '16/9',
+                                            background: `linear-gradient(135deg, ${project.color}20, ${project.color}05)`,
+                                            borderRadius: 'var(--border-radius)',
+                                            display: 'flex',
                                             alignItems: 'center',
-                                            gap: '6px',
-                                            marginBottom: 'var(--space-3)',
-                                            padding: '4px 10px',
-                                            borderRadius: '20px',
-                                            background: `linear-gradient(135deg, ${project.color}15, ${project.color}05)`,
+                                            justifyContent: 'center',
                                             border: `1px solid ${project.color}30`,
-                                            width: 'fit-content'
+                                            overflow: 'hidden',
+                                            position: 'relative'
                                         }}>
-                                            <span style={{ fontSize: 'var(--text-xs)', color: project.color, fontWeight: 600 }}>
-                                                {project.award.text}
-                                            </span>
-                                        </div>
-                                    )}
-
-                                    <p style={{
-                                        marginBottom: 'var(--space-4)',
-                                        color: 'var(--color-text-secondary)',
-                                        fontSize: 'var(--text-base)',
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 3,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden'
-                                    }}>
-                                        {project.description}
-                                    </p>
-
-                                    {/* Tech Tags */}
-                                    <div style={{
-                                        display: 'flex',
-                                        flexWrap: 'wrap',
-                                        gap: '8px',
-                                        marginBottom: 'var(--space-5)'
-                                    }}>
-                                        {project.tags.slice(0, 4).map((tech, i) => (
-                                            <div key={i} style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '4px',
-                                                padding: '4px 10px',
-                                                borderRadius: '20px',
-                                                background: 'var(--color-tag-bg)',
-                                                border: '1px solid var(--color-tag-border)'
-                                            }}>
-                                                <div style={{ color: tech.color, display: 'flex', fontSize: '1rem' }}>
-                                                    <tech.icon />
-                                                </div>
-                                                <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
-                                                    {tech.name}
-                                                </span>
-                                            </div>
-                                        ))}
-                                        {project.tags.length > 4 && (
-                                            <div style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                padding: '4px 10px',
-                                                borderRadius: '20px',
-                                                background: 'var(--color-tag-bg)',
-                                                border: '1px solid var(--color-tag-border)'
-                                            }}>
-                                                <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
-                                                    +{project.tags.length - 4}
-                                                </span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {project.fullDescription ? (
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'auto' }}>
-                                            <button onClick={() => openModal(index)} className="btn btn-primary" style={{ background: project.color, borderColor: project.color, color: '#ffffff', flex: 1, padding: '0.5rem 1rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
-                                                {t('projects.viewMore')}
-                                            </button>
-                                            {project.liveLink && (
-                                                <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flex: 1, padding: '0.5rem 1rem', borderColor: 'var(--color-card-border)', color: 'var(--color-text-primary)' }}>
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                                    {t('projects.liveApp')}
-                                                </a>
+                                            {project.coverImage ? (
+                                                <img
+                                                    src={project.coverImage}
+                                                    alt={project.title}
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                                                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                                                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                                />
+                                            ) : (
+                                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={project.color}>
+                                                    <rect x="2" y="3" width="20" height="14" rx="2" strokeWidth="1.5" />
+                                                    <path d="M8 21h8M12 17v4" strokeWidth="1.5" strokeLinecap="round" />
+                                                </svg>
                                             )}
                                         </div>
-                                    ) : (
-                                        <button className="btn btn-outline" style={{ marginTop: 'auto', width: '100%', padding: '0.5rem 1rem' }}>
-                                            {t('projects.comingSoon')}
-                                        </button>
-                                    )}
+
+                                        {/* Content */}
+                                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                            <h3 style={{
+                                                fontSize: 'var(--text-2xl)',
+                                                marginBottom: 'var(--space-1)',
+                                                color: 'var(--color-text-primary)'
+                                            }}>
+                                                {project.title}
+                                            </h3>
+
+                                            {/* Award Badge on Card */}
+                                            {project.award && (
+                                                <div style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '6px',
+                                                    marginBottom: 'var(--space-3)',
+                                                    padding: '4px 10px',
+                                                    borderRadius: '20px',
+                                                    background: `linear-gradient(135deg, ${project.color}15, ${project.color}05)`,
+                                                    border: `1px solid ${project.color}30`,
+                                                    width: 'fit-content'
+                                                }}>
+                                                    <span style={{ fontSize: 'var(--text-xs)', color: project.color, fontWeight: 600 }}>
+                                                        {project.award.text}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            <p style={{
+                                                marginBottom: 'var(--space-4)',
+                                                color: 'var(--color-text-secondary)',
+                                                fontSize: 'var(--text-base)',
+                                                display: '-webkit-box',
+                                                WebkitLineClamp: 3,
+                                                WebkitBoxOrient: 'vertical',
+                                                overflow: 'hidden'
+                                            }}>
+                                                {project.description}
+                                            </p>
+
+                                            {/* Tech Tags */}
+                                            <div style={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                gap: '8px',
+                                                marginBottom: 'var(--space-5)'
+                                            }}>
+                                                {project.tags.slice(0, 4).map((tech, i) => (
+                                                    <div key={i} style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '4px',
+                                                        padding: '4px 10px',
+                                                        borderRadius: '20px',
+                                                        background: 'var(--color-tag-bg)',
+                                                        border: '1px solid var(--color-tag-border)'
+                                                    }}>
+                                                        <div style={{ color: tech.color, display: 'flex', fontSize: '1rem' }}>
+                                                            <tech.icon />
+                                                        </div>
+                                                        <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                                                            {tech.name}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                                {project.tags.length > 4 && (
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        padding: '4px 10px',
+                                                        borderRadius: '20px',
+                                                        background: 'var(--color-tag-bg)',
+                                                        border: '1px solid var(--color-tag-border)'
+                                                    }}>
+                                                        <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                                                            +{project.tags.length - 4}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {project.fullDescription ? (
+                                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', marginTop: 'auto' }}>
+                                                    <button onClick={() => openModal(index)} className="btn btn-primary" style={{ background: project.color, borderColor: project.color, color: '#ffffff', flex: 1, padding: '0.5rem 1rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
+                                                        {t('projects.viewMore')}
+                                                    </button>
+                                                    {project.liveLink && (
+                                                        <a href={project.liveLink} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flex: 1, padding: '0.5rem 1rem', borderColor: 'var(--color-card-border)', color: 'var(--color-text-primary)' }}>
+                                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                                            {t('projects.liveApp')}
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <button className="btn btn-outline" style={{ marginTop: 'auto', width: '100%', padding: '0.5rem 1rem' }}>
+                                                    {t('projects.comingSoon')}
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </motion.div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </motion.div>
             </div>
 
             {/* Gallery Modal Overlay */}
             <AnimatePresence>
-                {isModalOpen && (activeProject.images || activeProject.darkImages) && (
+                {isModalOpen && (activeProject.images || activeProject.darkImages || activeProject.mobileImages) && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -478,6 +629,7 @@ const Projects = () => {
                             animate={{ y: 0, opacity: 1, scale: 1 }}
                             exit={{ y: 20, opacity: 0, scale: 0.95 }}
                             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            data-lenis-prevent="true"
                             style={{
                                 width: '100%',
                                 maxWidth: '1200px',
@@ -526,9 +678,16 @@ const Projects = () => {
                             </div>
 
                             {/* Modal Body: Two Columns */}
-                            <div className="modal-body">
+                            <div className="modal-body" style={{ flex: 1, overflow: 'hidden', display: 'flex' }}>
                                 {/* Left Column: Gallery */}
-                                <div className="modal-left">
+                                <div className="modal-left" style={{
+                                    flex: 1.5,
+                                    borderRight: '1px solid rgba(255, 255, 255, 0.05)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    padding: 'var(--space-4)',
+                                    background: 'rgba(0,0,0,0.1)'
+                                }}>
                                     {/* Dual-Theme Gallery Toggle */}
                                     {activeProject.darkImages && (
                                         <div style={{
@@ -568,6 +727,44 @@ const Projects = () => {
                                         </div>
                                     )}
 
+                                    {/* Mobile/Web Gallery Toggle */}
+                                    {activeProject.mobileImages && (
+                                        <div style={{
+                                            display: 'flex',
+                                            gap: '8px',
+                                            marginBottom: 'var(--space-4)',
+                                            padding: '4px',
+                                            background: 'rgba(255,255,255,0.04)',
+                                            borderRadius: '12px',
+                                            border: '1px solid rgba(255,255,255,0.08)',
+                                            width: 'fit-content'
+                                        }}>
+                                            {['mobile', 'web'].map((theme) => (
+                                                <button
+                                                    key={theme}
+                                                    onClick={() => { setGalleryTheme(theme); setActiveImageIndex(0); }}
+                                                    style={{
+                                                        padding: '6px 18px',
+                                                        borderRadius: '8px',
+                                                        border: 'none',
+                                                        cursor: 'pointer',
+                                                        fontSize: 'var(--text-sm)',
+                                                        fontWeight: 600,
+                                                        letterSpacing: '0.04em',
+                                                        textTransform: 'uppercase',
+                                                        transition: 'all 0.2s ease',
+                                                        background: galleryTheme === theme
+                                                            ? `linear-gradient(135deg, ${activeProject.color}cc, ${activeProject.color}88)`
+                                                            : 'transparent',
+                                                        color: galleryTheme === theme ? '#000' : 'var(--color-text-secondary)',
+                                                        boxShadow: galleryTheme === theme ? `0 2px 12px ${activeProject.color}40` : 'none'
+                                                    }}
+                                                >
+                                                    {theme === 'mobile' ? '📱 Móvil' : '💻 Web'}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
                                     {currentImages && currentImages.length > 0 && (
                                         <>
                                             {/* Main Image Viewer */}

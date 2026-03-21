@@ -7,6 +7,27 @@ const Navbar = () => {
     const { theme, setTheme } = useTheme();
     const { language, toggleLanguage, t } = useLanguage();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [hidden, setHidden] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                const aboutBottom = aboutSection.offsetTop + aboutSection.offsetHeight;
+                if (window.scrollY > aboutBottom - 100) {
+                    setHidden(true);
+                } else {
+                    setHidden(false);
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Initial check
+        handleScroll();
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useEffect(() => {
         if (isMobileMenuOpen) {
@@ -63,7 +84,7 @@ const Navbar = () => {
     return (
         <motion.div
             initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            animate={{ y: hidden ? -100 : 0, opacity: hidden ? 0 : 1 }}
             transition={{ duration: 0.6, type: 'spring', stiffness: 200, damping: 20 }}
             style={{
                 position: 'fixed',

@@ -46,6 +46,16 @@ export const translations = {
         'projects.3.status': 'ESTADO DEL PROYECTO: TERMINADO',
         'projects.3.awardText': '🏆 2° Lugar — Retos de Innovación',
         'projects.3.awardSub': 'Gobernación del Meta',
+        // --- Project 4: Algoritmos Genéticos ---
+        'projects.4.title': 'Optimización de Rutas (AG)',
+        'projects.4.desc': 'Sistema de optimización de rutas de transporte estudiantil mediante Algoritmos Genéticos.',
+        'projects.4.fullDesc': 'Implementación de Algoritmos Genéticos para resolver el problema de enrutamiento de vehículos (VRP) aplicado al transporte estudiantil. Optimiza las rutas buscando minimizar la distancia total y el tiempo de recorrido garantizando la eficiencia operativa.',
+        'projects.4.status': 'ESTADO DEL PROYECTO: TERMINADO',
+        // --- Project 5: Finanzandu ---
+        'projects.5.title': 'Finanzandu',
+        'projects.5.desc': 'Aplicación multiplataforma para la gestión de finanzas personales.',
+        'projects.5.fullDesc': 'Plataforma integral de finanzas personales diseñada para web y dispositivos móviles. Permite a los usuarios llevar un registro preciso de ingresos y gastos, visualizar gráficas detalladas de su actividad financiera, establecer presupuestos y metas de ahorro con total seguridad y sincronización en la nube.',
+        'projects.5.status': 'ESTADO DEL PROYECTO: TERMINADO',
         // Tech Stack
         'tech.title': 'Tecnologías & Herramientas',
         // Experience / Education
@@ -59,6 +69,15 @@ export const translations = {
         'exp.1.desc.2': 'Contribuí al desarrollo del módulo de inventario bajo arquitectura Modulith + DDD, con dominio completamente aislado y aplicación del principio de inversión de dependencias.',
         'exp.1.desc.3': 'Ayudé a implementar búsqueda inteligente con pg_vector, paginación avanzada y optimización de la carga inicial de más de 4.600 productos a ~3 segundos mediante Spring Batch.',
         'exp.1.desc.4': 'Colaboré en la implementación de eventos de dominio, WebSockets para sincronización en tiempo real y pipelines de carga masiva de datos e imágenes en AWS.',
+        'exp.2.title': 'Desarrollador Full Stack — Sistema de Gestión Integral',
+        'exp.2.company': 'Gobernación del Meta retos de innovación Club el Meta (2do Puesto) - Villavicencio, Meta',
+        'exp.2.date': 'Noviembre 2025 – Febrero 2026',
+        'exp.2.desc.1': 'Desarrollé un sistema completo de administración de eventos, reservas y socios utilizando Astro 4, TypeScript y AdonisJS 6.',
+        'exp.2.desc.2': 'Diseñé e implementé una arquitectura backend RESTful robusta respaldada por PostgreSQL y Lucid ORM, dockerizando el entorno para su despliegue en producción.',
+        'exp.2.desc.3': 'Implementé un panel de administración interactivo protegido con Supabase Auth y validación de datos estricta usando VineJS.',
+        'exp.2.desc.4': 'Automaticé flujos de comunicación y reportes integrando Resend para correos transaccionales y combinando PDFKit con Puppeteer para la renderización de cotizaciones y documentos complejos.',
+        'exp.2.desc.5': 'Mejoré la usabilidad y estética implementando un diseño UI/UX de alta fidelidad ("Lujo Refinado") usando Vanilla CSS, garantizando una excelente retención visual y consistencia de marca.',
+        'exp.2.desc.6': 'Gestioné el control de disponibilidad de espacios, procesando eficientemente múltiples solicitudes simultáneas mediante lógica de control de concurrencia y gestión de zonas horarias (Luxon).',
         // About
         'about.title.1': 'Transformando ideas complejas en',
         'about.title.2': 'interfaces elegantes',
@@ -136,6 +155,16 @@ export const translations = {
         'projects.3.status': 'PROJECT STATUS: COMPLETED',
         'projects.3.awardText': '🏆 2nd Place — Innovation Challenges',
         'projects.3.awardSub': 'Gobernación del Meta',
+        // --- Project 4: Algoritmos Genéticos ---
+        'projects.4.title': 'Route Optimization (GA)',
+        'projects.4.desc': 'Student transport route optimization system using Genetic Algorithms.',
+        'projects.4.fullDesc': 'Implementation of Genetic Algorithms to solve the Vehicle Routing Problem (VRP) applied to student transport. It optimizes routes seeking to minimize total distance and travel time ensuring operational efficiency.',
+        'projects.4.status': 'PROJECT STATUS: COMPLETED',
+        // --- Project 5: Finanzandu ---
+        'projects.5.title': 'Finanzandu',
+        'projects.5.desc': 'Cross-platform application for personal finance management.',
+        'projects.5.fullDesc': 'Comprehensive personal finance platform designed for web and mobile devices. It allows users to keep precise track of income and expenses, visualize detailed graphs of their financial activity, set budgets and savings goals, all securely and cloud-synced.',
+        'projects.5.status': 'PROJECT STATUS: COMPLETED',
         // Tech Stack
         'tech.title': 'Technologies & Tools',
         // Experience / Education
@@ -149,6 +178,15 @@ export const translations = {
         'exp.1.desc.2': 'Contributed to the development of the inventory module under Modulith + DDD architecture, with a completely isolated domain and dependency inversion.',
         'exp.1.desc.3': 'Helped implement intelligent search with pg_vector, advanced pagination, and optimized the initial loading of over 4,600 products to ~3 seconds using Spring Batch.',
         'exp.1.desc.4': 'Collaborated in implementing domain events, WebSockets for real-time synchronization, and bulk data/image loading pipelines in AWS.',
+        'exp.2.title': 'Full Stack Developer — Comprehensive Management System',
+        'exp.2.company': 'Gobernación del departamento del meta retos de innovación Club el meta (2nd place) - Villavicencio, Meta',
+        'exp.2.date': 'Nov 2025 – Feb 2026',
+        'exp.2.desc.1': 'Developed a complete event, reservation, and member administration system using Astro 4, TypeScript, and AdonisJS 6.',
+        'exp.2.desc.2': 'Designed and implemented a robust RESTful backend architecture backed by PostgreSQL and Lucid ORM, containerizing the environment with Docker for production deployment.',
+        'exp.2.desc.3': 'Implemented an interactive admin panel secured with Supabase Auth and strict data validation using VineJS.',
+        'exp.2.desc.4': 'Automated communication and reporting flows by integrating Resend for transactional emails and combining PDFKit with Puppeteer for rendering complex quotes and documents.',
+        'exp.2.desc.5': 'Enhanced usability and aesthetics by implementing a high-fidelity UI/UX design ("Refined Luxury") using Vanilla CSS, ensuring excellent visual retention and brand consistency.',
+        'exp.2.desc.6': 'Managed space availability control, efficiently processing multiple concurrent requests through concurrency control logic and time zone management (Luxon).',
         // About
         'about.title.1': 'Transforming complex ideas into',
         'about.title.2': 'elegant interfaces',
