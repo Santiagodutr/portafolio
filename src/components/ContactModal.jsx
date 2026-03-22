@@ -18,7 +18,7 @@ const ContactModal = ({ isOpen, onClose }) => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape' && isOpen) onClose();
         };
-        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keydown', handleKeyDown, { passive: true });
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, onClose]);
 

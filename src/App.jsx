@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <ReactLenis root options={{ autoRaf: false, smoothWheel: true }} ref={lenisRef}>
+    <ReactLenis root options={{ autoRaf: false, smoothWheel: true, syncTouchLerp: 0.075, touchInertiaExponent: 1.7 }} ref={lenisRef}>
       <div className="App">
         <Navbar />
         <Hero />
