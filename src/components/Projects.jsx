@@ -330,7 +330,7 @@ const Projects = () => {
             }
         };
 
-        window.addEventListener('keydown', handleKeyDown, { passive: true });
+        window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };

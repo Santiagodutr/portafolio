@@ -31,9 +31,8 @@ const Hero = () => {
     const context = canvas.getContext("2d");
 
     // Set canvas internal resolution to handle standard landscape video
-    const isMobile = window.innerWidth < 768;
-    canvas.width = isMobile ? 960 : 1920;
-    canvas.height = isMobile ? 540 : 1080;
+    canvas.width = 1920;
+    canvas.height = 1080;
 
     const images = [];
     const seq = { frame: 0 };
@@ -148,7 +147,6 @@ const Hero = () => {
           height: '100%',
           zIndex: 1,
           pointerEvents: 'none',
-          willChange: 'opacity'
         }}
       >
         <svg width="100%" height="100%">
@@ -169,8 +167,7 @@ const Hero = () => {
                   fontWeight: 900, 
                   fontFamily: 'Inter, system-ui, sans-serif', 
                   letterSpacing: '0.02em',
-                  textTransform: 'uppercase',
-                  willChange: 'transform, opacity'
+                  textTransform: 'uppercase'
                 }}
               >
                 SANTIAGO
@@ -192,8 +189,7 @@ const Hero = () => {
           height: '100%',
           zIndex: 1, // Debajo del texto pero arriba de la máscara base
           pointerEvents: 'none',
-          opacity: 0, // Inician invisibles, el GSAP se encarga
-          willChange: 'opacity'
+          opacity: 0 // Inician invisibles, el GSAP se encarga
         }}
       >
         {shapes.map((shape, index) => (
@@ -231,7 +227,6 @@ const Hero = () => {
           position: 'relative', 
           zIndex: 2, 
           textAlign: 'center',
-          willChange: 'transform, opacity'
         }}
       >
         <div>
